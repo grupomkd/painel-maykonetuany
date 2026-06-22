@@ -2,66 +2,89 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Painel Maykon & Tuany</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; color: #1a1a1a; min-height: 100vh; }
-  header { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
-  .logo { font-size: 16px; font-weight: 600; color: #1a1a1a; }
-  .logo span { color: #d4537e; }
-  .sync-status { font-size: 12px; color: #888; display: flex; align-items: center; gap: 6px; }
-  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; }
-  .sync-dot.offline { background: #f59e0b; }
-  .painel { max-width: 760px; margin: 0 auto; padding: 24px 16px; display: flex; flex-direction: column; gap: 20px; }
-  .projeto { background: #fff; border-radius: 14px; border: 1px solid #e8e8e8; overflow: hidden; }
-  .projeto-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f0f0f0; cursor: pointer; user-select: none; }
-  .projeto-header-left { display: flex; align-items: center; gap: 12px; }
-  .projeto-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-  .projeto-titulo { font-size: 14px; font-weight: 600; color: #1a1a1a; }
-  .projeto-sub { font-size: 12px; color: #888; margin-top: 2px; }
-  .projeto-right { display: flex; align-items: center; gap: 10px; }
-  .progress-wrap { display: flex; align-items: center; gap: 8px; }
-  .progress-bar { width: 72px; height: 5px; background: #f0f0f0; border-radius: 99px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 99px; transition: width 0.4s; }
-  .progress-pct { font-size: 11px; color: #888; min-width: 26px; text-align: right; }
-  .chevron { font-size: 12px; color: #bbb; transition: transform 0.2s; }
-  .chevron.open { transform: rotate(180deg); }
-  .projeto-body { padding: 0 20px 16px; display: none; }
-  .projeto-body.open { display: block; }
-  .secao { margin-top: 16px; }
-  .secao-titulo { font-size: 10px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
-  .tasks { display: flex; flex-direction: column; gap: 2px; }
-  .task { display: flex; align-items: flex-start; gap: 10px; padding: 8px 8px; border-radius: 8px; cursor: pointer; transition: background 0.12s; }
-  .task:hover { background: #fafafa; }
-  .task.done { opacity: 0.45; }
-  .task-check { width: 17px; height: 17px; border: 1.5px solid #d0d0d0; border-radius: 5px; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-  .task.done .task-check { background: #22c55e; border-color: #22c55e; }
-  .task.done .task-check::after { content: ''; display: block; width: 8px; height: 5px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) translateY(-1px); }
-  .task-label { font-size: 13px; color: #1a1a1a; line-height: 1.45; flex: 1; }
-  .task.done .task-label { text-decoration: line-through; color: #aaa; }
-  .task-del { font-size: 16px; color: #ccc; padding: 0 4px; opacity: 0; transition: opacity 0.15s; flex-shrink: 0; line-height: 1; }
-  .task:hover .task-del { opacity: 1; }
-  .task-del:hover { color: #e24b4a; }
-  .add-row { display: flex; gap: 8px; margin-top: 8px; padding: 0 8px; }
-  .add-input { flex: 1; font-size: 13px; padding: 7px 10px; border-radius: 8px; border: 1px solid #e0e0e0; outline: none; background: #fafafa; color: #1a1a1a; }
-  .add-input:focus { border-color: #ccc; background: #fff; }
-  .add-btn { font-size: 13px; padding: 7px 14px; border-radius: 8px; border: 1px solid #e0e0e0; background: #fff; color: #555; cursor: pointer; transition: background 0.12s; white-space: nowrap; }
-  .add-btn:hover { background: #f5f5f5; }
-  .divider { height: 1px; background: #f0f0f0; margin: 16px 0 0; }
-  .custos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-bottom: 10px; }
-  .custo-card { background: #fafafa; border-radius: 8px; padding: 10px 12px; }
-  .custo-nome { font-size: 11px; color: #888; margin-bottom: 3px; }
-  .custo-val { font-size: 15px; font-weight: 600; color: #1a1a1a; }
-  .total-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #f5f5f0; border-radius: 8px; }
-  .total-label { font-size: 12px; color: #666; }
-  .total-val { font-size: 17px; font-weight: 700; color: #1a1a1a; }
-  .loading { text-align: center; padding: 60px 20px; color: #aaa; font-size: 14px; }
-  @media (max-width: 480px) {
-    .painel { padding: 16px 10px; }
-    .projeto-titulo { font-size: 13px; }
-    .progress-bar { width: 50px; }
-  }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f0;color:#1a1a1a;min-height:100vh;-webkit-tap-highlight-color:transparent;}
+header{background:#fff;border-bottom:1px solid #e8e8e8;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.logo{font-size:15px;font-weight:700;color:#1a1a1a;letter-spacing:-0.3px;}
+.logo span{color:#d4537e;}
+.sync-status{font-size:11px;color:#888;display:flex;align-items:center;gap:5px;}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;flex-shrink:0;}
+.sync-dot.offline{background:#f59e0b;}
+.painel{max-width:720px;margin:0 auto;padding:20px 14px;display:flex;flex-direction:column;gap:16px;}
+.projeto{background:#fff;border-radius:14px;border:1px solid #e8e8e8;overflow:hidden;}
+.projeto-header{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;-webkit-user-select:none;}
+.projeto-header-left{display:flex;align-items:center;gap:10px;}
+.projeto-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.projeto-titulo{font-size:14px;font-weight:600;}
+.projeto-sub{font-size:11px;color:#888;margin-top:2px;}
+.projeto-right{display:flex;align-items:center;gap:8px;}
+.progress-wrap{display:flex;align-items:center;gap:6px;}
+.progress-bar{width:60px;height:4px;background:#f0f0f0;border-radius:99px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:99px;transition:width 0.4s;}
+.progress-pct{font-size:11px;color:#888;min-width:24px;text-align:right;}
+.chevron{font-size:11px;color:#bbb;transition:transform 0.2s;margin-left:2px;}
+.chevron.open{transform:rotate(180deg);}
+.projeto-body{padding:0 18px 16px;display:none;}
+.projeto-body.open{display:block;}
+.secao{margin-top:14px;}
+.secao-titulo{font-size:10px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
+.tasks{display:flex;flex-direction:column;gap:2px;}
+
+/* TASK */
+.task{border-radius:8px;border:1px solid transparent;transition:background 0.12s,border-color 0.12s;background:#fff;}
+.task.dragging{opacity:0.4;border:1px dashed #ccc;}
+.task.drag-over{border-color:#d4537e;background:#fff5f8;}
+.task-main{display:flex;align-items:flex-start;gap:8px;padding:7px 8px 4px;}
+.drag-handle{color:#ccc;cursor:grab;font-size:14px;padding:1px 2px;flex-shrink:0;touch-action:none;line-height:1.4;}
+.drag-handle:active{cursor:grabbing;}
+.task-check{width:17px;height:17px;border:1.5px solid #d0d0d0;border-radius:5px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;cursor:pointer;}
+.task.done .task-check{background:#22c55e;border-color:#22c55e;}
+.task.done .task-check::after{content:'';display:block;width:8px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translateY(-1px);}
+.task-label{font-size:13px;color:#1a1a1a;line-height:1.45;flex:1;cursor:pointer;}
+.task.done .task-label{text-decoration:line-through;color:#aaa;}
+.task-actions{display:flex;align-items:center;gap:2px;flex-shrink:0;}
+.task-note-btn{font-size:13px;color:#ccc;padding:2px 4px;cursor:pointer;border:none;background:none;border-radius:4px;transition:color 0.12s;}
+.task-note-btn:hover,.task-note-btn.active{color:#7f77dd;}
+.task-del{font-size:16px;color:#ccc;padding:2px 4px;cursor:pointer;border:none;background:none;border-radius:4px;transition:color 0.12s;line-height:1;}
+.task-del:hover{color:#e24b4a;}
+.task-note-area{padding:0 8px 8px 36px;}
+.task-note-input{width:100%;font-size:12px;padding:6px 9px;border-radius:7px;border:1px solid #e8e8e8;outline:none;background:#fafafa;color:#1a1a1a;resize:none;font-family:inherit;line-height:1.5;min-height:56px;transition:border-color 0.15s;}
+.task-note-input:focus{border-color:#c0c0c0;background:#fff;}
+.task-note-area.hidden{display:none;}
+
+.add-row{display:flex;gap:6px;margin-top:6px;padding:0 4px;}
+.add-input{flex:1;font-size:13px;padding:8px 10px;border-radius:8px;border:1px solid #e0e0e0;outline:none;background:#fafafa;color:#1a1a1a;}
+.add-input:focus{border-color:#ccc;background:#fff;}
+.add-btn{font-size:13px;padding:8px 14px;border-radius:8px;border:1px solid #e0e0e0;background:#fff;color:#555;cursor:pointer;white-space:nowrap;transition:background 0.12s;}
+.add-btn:hover{background:#f5f5f5;}
+.add-btn:active{background:#eee;}
+
+.divider{height:1px;background:#f0f0f0;margin:14px 0 0;}
+.custos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;margin-bottom:8px;}
+.custo-card{background:#fafafa;border-radius:8px;padding:9px 11px;}
+.custo-nome{font-size:11px;color:#888;margin-bottom:2px;}
+.custo-val{font-size:14px;font-weight:600;}
+.total-row{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;background:#f5f5f0;border-radius:8px;}
+.total-label{font-size:12px;color:#666;}
+.total-val{font-size:16px;font-weight:700;}
+
+.loading{text-align:center;padding:60px 20px;color:#aaa;font-size:14px;}
+
+@media(max-width:480px){
+  header{padding:12px 16px;}
+  .painel{padding:14px 10px;gap:12px;}
+  .projeto-header{padding:12px 14px;}
+  .projeto-body{padding:0 14px 14px;}
+  .logo{font-size:14px;}
+  .progress-bar{width:44px;}
+  .task-main{padding:7px 6px 4px;}
+  .task-note-area{padding:0 6px 8px 30px;}
+  .add-row{padding:0 2px;}
+  .custos-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr));}
+}
 </style>
 </head>
 <body>
@@ -80,7 +103,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, set, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB_UTg8NWYSS3SlzSsJdgvrdkhuRZLFjB0",
@@ -96,263 +119,306 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 const DADOS_INICIAIS = {
-  casamento: {
-    titulo: "Casamento Maykon & Tuany",
-    sub: "Novembro 2025",
-    icon: "💍",
-    iconBg: "#fbeaf0",
-    barColor: "#d4537e",
-    aberto: true,
-    custos: [
-      { nome: "Espaço", val: 4500 },
-      { nome: "Doces", val: 2880 },
-      { nome: "Vestido", val: 1500 },
-      { nome: "Terno", val: 1000 },
-      { nome: "Foto & Vídeo", val: 3600 },
-      { nome: "Bebida", val: 1500 }
-    ],
-    secoes: {
-      tarefas: {
-        titulo: "Tarefas pendentes",
-        tasks: {
-          t1: { label: "Desenhar detalhado todos os valores do casamento", done: false },
-          t2: { label: "Conversar com a Antonia (mãe)", done: false },
-          t3: { label: "Ir no cartório", done: false },
-          t4: { label: "Arranjar DJ e orçar valor", done: false },
-          t5: { label: "Arranjar gaiteiro e orçar valor", done: false },
-          t6: { label: "Ver e comparar valores das alianças", done: false },
-          t7: { label: "Ver lugar do terno", done: false },
-          t8: { label: "Criar site com nossas coisas", done: false },
-          t9: { label: "Levar caixas dos padrinhos no correio", done: false },
-          t10: { label: "Fazer demais caixas dos padrinhos", done: false }
-        }
-      }
+  casamento:{titulo:"Casamento Maykon & Tuany",sub:"Novembro 2025",icon:"💍",iconBg:"#fbeaf0",barColor:"#d4537e",aberto:true,
+    custos:[{nome:"Espaço",val:4500},{nome:"Doces",val:2880},{nome:"Vestido",val:1500},{nome:"Terno",val:1000},{nome:"Foto & Vídeo",val:3600},{nome:"Bebida",val:1500}],
+    secoes:{tarefas:{titulo:"Tarefas pendentes",tasks:{
+      t1:{label:"Desenhar detalhado todos os valores do casamento",done:false,ordem:0,nota:""},
+      t2:{label:"Conversar com a Antonia (mãe)",done:false,ordem:1,nota:""},
+      t3:{label:"Ir no cartório",done:false,ordem:2,nota:""},
+      t4:{label:"Arranjar DJ e orçar valor",done:false,ordem:3,nota:""},
+      t5:{label:"Arranjar gaiteiro e orçar valor",done:false,ordem:4,nota:""},
+      t6:{label:"Ver e comparar valores das alianças",done:false,ordem:5,nota:""},
+      t7:{label:"Ver lugar do terno",done:false,ordem:6,nota:""},
+      t8:{label:"Criar site com nossas coisas",done:false,ordem:7,nota:""},
+      t9:{label:"Levar caixas dos padrinhos no correio",done:false,ordem:8,nota:""},
+      t10:{label:"Fazer demais caixas dos padrinhos",done:false,ordem:9,nota:""}
+    }}}
+  },
+  maykon:{titulo:"Projeto Maykon — Instagram",sub:"As 3 Inteligências do Século",icon:"🎥",iconBg:"#e6f1fb",barColor:"#378add",aberto:false,
+    secoes:{
+      estrategia:{titulo:"Definições estratégicas",tasks:{
+        t1:{label:"Definir dias de gravação",done:false,ordem:0,nota:""},
+        t2:{label:"Definir conteúdos por pilar (Pessoal, Interpessoal, Computacional)",done:false,ordem:1,nota:""},
+        t3:{label:"Definir livros e datas para ler/concluir",done:false,ordem:2,nota:""},
+        t4:{label:"Definir público-alvo",done:false,ordem:3,nota:""},
+        t5:{label:"Definir data de início das postagens",done:false,ordem:4,nota:""}
+      }},
+      producao:{titulo:"Produção",tasks:{
+        t1:{label:"Fechar orçamento de produção",done:true,ordem:0,nota:""},
+        t2:{label:"Criar roteiros para Inteligência Pessoal",done:false,ordem:1,nota:""},
+        t3:{label:"Criar roteiros para Inteligência Interpessoal",done:false,ordem:2,nota:""},
+        t4:{label:"Criar roteiros para Inteligência Computacional",done:false,ordem:3,nota:""},
+        t5:{label:"Gravar primeiros vídeos",done:false,ordem:4,nota:""},
+        t6:{label:"Editar e publicar",done:false,ordem:5,nota:""}
+      }}
     }
   },
-  maykon: {
-    titulo: "Projeto Maykon — Instagram",
-    sub: "As 3 Inteligências do Século",
-    icon: "🎥",
-    iconBg: "#e6f1fb",
-    barColor: "#378add",
-    aberto: false,
-    secoes: {
-      estrategia: {
-        titulo: "Definições estratégicas",
-        tasks: {
-          t1: { label: "Definir dias de gravação", done: false },
-          t2: { label: "Definir conteúdos por pilar (Pessoal, Interpessoal, Computacional)", done: false },
-          t3: { label: "Definir livros e datas para ler/concluir", done: false },
-          t4: { label: "Definir público-alvo", done: false },
-          t5: { label: "Definir data de início das postagens", done: false }
-        }
-      },
-      producao: {
-        titulo: "Produção",
-        tasks: {
-          t1: { label: "Fechar orçamento de produção", done: true },
-          t2: { label: "Criar roteiros para Inteligência Pessoal", done: false },
-          t3: { label: "Criar roteiros para Inteligência Interpessoal", done: false },
-          t4: { label: "Criar roteiros para Inteligência Computacional", done: false },
-          t5: { label: "Gravar primeiros vídeos", done: false },
-          t6: { label: "Editar e publicar", done: false }
-        }
-      }
-    }
-  },
-  tuany: {
-    titulo: "Projeto Tuany — Sobrancelha",
-    sub: "Reconstrução & Marca",
-    icon: "✨",
-    iconBg: "#eeedfe",
-    barColor: "#7f77dd",
-    aberto: false,
-    secoes: {
-      marca: {
-        titulo: "Posicionamento & marca",
-        tasks: {
-          t1: { label: "Usar espaço do Instituto para fortalecer marca", done: false },
-          t2: { label: "Definir posicionamento como especialista em reconstrução", done: false },
-          t3: { label: "Definir público-alvo", done: false },
-          t4: { label: "Definir constância de postagens", done: false }
-        }
-      },
-      conteudo: {
-        titulo: "Conteúdo & TikTok",
-        tasks: {
-          t1: { label: "Criar vídeos e fazer postagens no Instagram", done: false },
-          t2: { label: "Começar no TikTok", done: false },
-          t3: { label: "Estudar estratégia para TikTok Shop", done: false }
-        }
-      },
-      clientes: {
-        titulo: "Estratégia de cliente",
-        tasks: {
-          t1: { label: "Estudar modelo de cliente recorrente", done: false },
-          t2: { label: "Criar estratégia de cliente que indica (referral)", done: false }
-        }
-      }
+  tuany:{titulo:"Projeto Tuany — Sobrancelha",sub:"Reconstrução & Marca",icon:"✨",iconBg:"#eeedfe",barColor:"#7f77dd",aberto:false,
+    secoes:{
+      marca:{titulo:"Posicionamento & marca",tasks:{
+        t1:{label:"Usar espaço do Instituto para fortalecer marca",done:false,ordem:0,nota:""},
+        t2:{label:"Definir posicionamento como especialista em reconstrução",done:false,ordem:1,nota:""},
+        t3:{label:"Definir público-alvo",done:false,ordem:2,nota:""},
+        t4:{label:"Definir constância de postagens",done:false,ordem:3,nota:""}
+      }},
+      conteudo:{titulo:"Conteúdo & TikTok",tasks:{
+        t1:{label:"Criar vídeos e fazer postagens no Instagram",done:false,ordem:0,nota:""},
+        t2:{label:"Começar no TikTok",done:false,ordem:1,nota:""},
+        t3:{label:"Estudar estratégia para TikTok Shop",done:false,ordem:2,nota:""}
+      }},
+      clientes:{titulo:"Estratégia de cliente",tasks:{
+        t1:{label:"Estudar modelo de cliente recorrente",done:false,ordem:0,nota:""},
+        t2:{label:"Criar estratégia de cliente que indica (referral)",done:false,ordem:1,nota:""}
+      }}
     }
   }
 };
 
-const rootRef = ref(db, 'projetos');
-let dadosAtuais = null;
+function uid(){return 't'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function calcProgress(secoes){
+  if(!secoes)return 0;
+  let total=0,done=0;
+  Object.values(secoes).forEach(s=>{if(s.tasks)Object.values(s.tasks).forEach(t=>{total++;if(t.done)done++;});});
+  return total===0?0:Math.round((done/total)*100);
+}
+function fmtBRL(v){return'R$ '+Number(v).toLocaleString('pt-BR');}
 
-function uid() {
-  return 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+let dadosAtuais={};
+let dragSrc=null;
+
+function saveNota(pid,sid,tid,val){
+  update(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`),{nota:val});
 }
 
-function calcProgress(secoes) {
-  if (!secoes) return 0;
-  let total = 0, done = 0;
-  Object.values(secoes).forEach(s => {
-    if (s.tasks) Object.values(s.tasks).forEach(t => { total++; if (t.done) done++; });
-  });
-  return total === 0 ? 0 : Math.round((done / total) * 100);
-}
-
-function fmtBRL(v) {
-  return 'R$ ' + Number(v).toLocaleString('pt-BR');
-}
-
-function renderPainel(dados) {
-  dadosAtuais = dados;
-  const painel = document.getElementById('painel');
-  painel.innerHTML = '';
-
-  Object.entries(dados).forEach(([pid, proj]) => {
-    const pct = calcProgress(proj.secoes);
-    const div = document.createElement('div');
-    div.className = 'projeto';
-    div.id = 'proj-' + pid;
-
-    div.innerHTML = `
-      <div class="projeto-header" onclick="toggleProjeto('${pid}')">
+function renderPainel(dados){
+  dadosAtuais=dados;
+  const painel=document.getElementById('painel');
+  painel.innerHTML='';
+  Object.entries(dados).forEach(([pid,proj])=>{
+    const pct=calcProgress(proj.secoes);
+    const wrap=document.createElement('div');
+    wrap.className='projeto';
+    wrap.id='proj-'+pid;
+    wrap.innerHTML=`
+      <div class="projeto-header" id="hdr-${pid}">
         <div class="projeto-header-left">
           <div class="projeto-icon" style="background:${proj.iconBg}">${proj.icon}</div>
           <div>
             <div class="projeto-titulo">${proj.titulo}</div>
-            <div class="projeto-sub">${proj.sub || ''}</div>
+            <div class="projeto-sub">${proj.sub||''}</div>
           </div>
         </div>
         <div class="projeto-right">
           <div class="progress-wrap">
-            <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${proj.barColor}"></div></div>
-            <span class="progress-pct">${pct}%</span>
+            <div class="progress-bar"><div class="progress-fill" id="fill-${pid}" style="width:${pct}%;background:${proj.barColor}"></div></div>
+            <span class="progress-pct" id="pct-${pid}">${pct}%</span>
           </div>
-          <span class="chevron ${proj.aberto ? 'open' : ''}">▼</span>
+          <span class="chevron ${proj.aberto?'open':''}" id="chv-${pid}">▼</span>
         </div>
       </div>
-      <div class="projeto-body ${proj.aberto ? 'open' : ''}" id="body-${pid}"></div>
+      <div class="projeto-body ${proj.aberto?'open':''}" id="body-${pid}"></div>
     `;
+    wrap.querySelector(`#hdr-${pid}`).addEventListener('click',()=>toggleProjeto(pid));
+    const body=wrap.querySelector(`#body-${pid}`);
 
-    const body = div.querySelector(`#body-${pid}`);
-
-    if (proj.custos && proj.custos.length) {
-      const total = proj.custos.reduce((a, c) => a + Number(c.val), 0);
-      const custoDiv = document.createElement('div');
-      custoDiv.className = 'secao';
-      custoDiv.innerHTML = `<div class="secao-titulo">Custos já levantados</div>`;
-      const grid = document.createElement('div');
-      grid.className = 'custos-grid';
-      proj.custos.forEach(c => {
-        const card = document.createElement('div');
-        card.className = 'custo-card';
-        card.innerHTML = `<div class="custo-nome">${c.nome}</div><div class="custo-val">${fmtBRL(c.val)}</div>`;
+    if(proj.custos&&proj.custos.length){
+      const total=proj.custos.reduce((a,c)=>a+Number(c.val),0);
+      const sec=document.createElement('div');
+      sec.className='secao';
+      sec.innerHTML=`<div class="secao-titulo">Custos já levantados</div>`;
+      const grid=document.createElement('div');grid.className='custos-grid';
+      proj.custos.forEach(c=>{
+        const card=document.createElement('div');card.className='custo-card';
+        card.innerHTML=`<div class="custo-nome">${c.nome}</div><div class="custo-val">${fmtBRL(c.val)}</div>`;
         grid.appendChild(card);
       });
-      custoDiv.appendChild(grid);
-      custoDiv.innerHTML += `<div class="total-row"><span class="total-label">Total já mapeado</span><span class="total-val">${fmtBRL(total)}</span></div>`;
-      body.appendChild(custoDiv);
+      sec.appendChild(grid);
+      const tr=document.createElement('div');tr.className='total-row';
+      tr.innerHTML=`<span class="total-label">Total já mapeado</span><span class="total-val">${fmtBRL(total)}</span>`;
+      sec.appendChild(tr);
+      body.appendChild(sec);
     }
 
-    if (proj.secoes) {
-      Object.entries(proj.secoes).forEach(([sid, sec], idx) => {
-        if (idx > 0 || proj.custos) {
-          const div2 = document.createElement('div'); div2.className = 'divider'; body.appendChild(div2);
-        }
-        const secDiv = document.createElement('div');
-        secDiv.className = 'secao';
-        secDiv.innerHTML = `<div class="secao-titulo">${sec.titulo}</div>`;
-        const tasksList = document.createElement('div');
-        tasksList.className = 'tasks';
+    if(proj.secoes){
+      Object.entries(proj.secoes).forEach(([sid,sec],idx)=>{
+        if(idx>0||proj.custos){const d=document.createElement('div');d.className='divider';body.appendChild(d);}
+        const secDiv=document.createElement('div');secDiv.className='secao';
+        secDiv.innerHTML=`<div class="secao-titulo">${sec.titulo}</div>`;
+        const tasksList=document.createElement('div');tasksList.className='tasks';tasksList.id=`tl-${pid}-${sid}`;
 
-        if (sec.tasks) {
-          Object.entries(sec.tasks).forEach(([tid, task]) => {
-            tasksList.appendChild(makeTaskEl(pid, sid, tid, task));
-          });
+        if(sec.tasks){
+          const sorted=Object.entries(sec.tasks).sort((a,b)=>(a[1].ordem||0)-(b[1].ordem||0));
+          sorted.forEach(([tid,task])=>tasksList.appendChild(makeTaskEl(pid,sid,tid,task)));
         }
-
         secDiv.appendChild(tasksList);
 
-        const addRow = document.createElement('div');
-        addRow.className = 'add-row';
-        addRow.innerHTML = `<input class="add-input" placeholder="Nova tarefa..." id="inp-${pid}-${sid}"><button class="add-btn" onclick="addTask('${pid}','${sid}','inp-${pid}-${sid}')">+ Adicionar</button>`;
+        const addRow=document.createElement('div');addRow.className='add-row';
+        addRow.innerHTML=`<input class="add-input" placeholder="Nova tarefa..." id="inp-${pid}-${sid}"><button class="add-btn">+ Adicionar</button>`;
+        addRow.querySelector('.add-btn').addEventListener('click',()=>addTask(pid,sid,`inp-${pid}-${sid}`));
+        addRow.querySelector('.add-input').addEventListener('keydown',e=>{if(e.key==='Enter')addTask(pid,sid,`inp-${pid}-${sid}`);});
         secDiv.appendChild(addRow);
-
-        const inp = addRow.querySelector('.add-input');
-        inp.addEventListener('keydown', e => { if (e.key === 'Enter') addTask(pid, sid, `inp-${pid}-${sid}`); });
-
         body.appendChild(secDiv);
       });
     }
-
-    painel.appendChild(div);
+    painel.appendChild(wrap);
   });
 }
 
-function makeTaskEl(pid, sid, tid, task) {
-  const el = document.createElement('div');
-  el.className = 'task' + (task.done ? ' done' : '');
-  el.id = `task-${pid}-${sid}-${tid}`;
-  el.innerHTML = `<div class="task-check"></div><span class="task-label">${task.label}</span><span class="task-del" onclick="deleteTask(event,'${pid}','${sid}','${tid}')">×</span>`;
-  el.querySelector('.task-check').addEventListener('click', () => toggleTask(pid, sid, tid));
-  el.querySelector('.task-label').addEventListener('click', () => toggleTask(pid, sid, tid));
+function makeTaskEl(pid,sid,tid,task){
+  const el=document.createElement('div');
+  el.className='task'+(task.done?' done':'');
+  el.id=`task-${pid}-${sid}-${tid}`;
+  el.setAttribute('draggable','true');
+  el.dataset.pid=pid;el.dataset.sid=sid;el.dataset.tid=tid;
+
+  const noteOpen=task.nota&&task.nota.length>0;
+
+  el.innerHTML=`
+    <div class="task-main">
+      <span class="drag-handle" title="Arrastar">⠿</span>
+      <div class="task-check"></div>
+      <span class="task-label">${task.label}</span>
+      <div class="task-actions">
+        <button class="task-note-btn ${noteOpen?'active':''}" title="Anotações">✏️</button>
+        <button class="task-del" title="Remover">×</button>
+      </div>
+    </div>
+    <div class="task-note-area ${noteOpen?'':'hidden'}">
+      <textarea class="task-note-input" placeholder="Anotações...">${task.nota||''}</textarea>
+    </div>
+  `;
+
+  el.querySelector('.task-check').addEventListener('click',()=>toggleTask(pid,sid,tid));
+  el.querySelector('.task-label').addEventListener('click',()=>toggleTask(pid,sid,tid));
+
+  el.querySelector('.task-del').addEventListener('click',e=>{
+    e.stopPropagation();
+    if(confirm('Remover essa tarefa?'))remove(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`));
+  });
+
+  const noteBtn=el.querySelector('.task-note-btn');
+  const noteArea=el.querySelector('.task-note-area');
+  noteBtn.addEventListener('click',e=>{
+    e.stopPropagation();
+    noteArea.classList.toggle('hidden');
+    noteBtn.classList.toggle('active');
+    if(!noteArea.classList.contains('hidden'))noteArea.querySelector('textarea').focus();
+  });
+
+  const textarea=el.querySelector('.task-note-input');
+  let noteTimer;
+  textarea.addEventListener('input',()=>{
+    clearTimeout(noteTimer);
+    noteTimer=setTimeout(()=>saveNota(pid,sid,tid,textarea.value),800);
+  });
+  textarea.addEventListener('blur',()=>saveNota(pid,sid,tid,textarea.value));
+
+  // Drag desktop
+  el.addEventListener('dragstart',e=>{dragSrc=el;el.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
+  el.addEventListener('dragend',()=>{el.classList.remove('dragging');document.querySelectorAll('.task').forEach(t=>t.classList.remove('drag-over'));});
+  el.addEventListener('dragover',e=>{e.preventDefault();if(el!==dragSrc)el.classList.add('drag-over');});
+  el.addEventListener('dragleave',()=>el.classList.remove('drag-over'));
+  el.addEventListener('drop',e=>{
+    e.preventDefault();
+    el.classList.remove('drag-over');
+    if(!dragSrc||dragSrc===el)return;
+    const list=el.parentNode;
+    const items=[...list.querySelectorAll('.task')];
+    const fromIdx=items.indexOf(dragSrc);
+    const toIdx=items.indexOf(el);
+    if(fromIdx<toIdx)list.insertBefore(dragSrc,el.nextSibling);
+    else list.insertBefore(dragSrc,el);
+    saveOrdem(pid,sid,list);
+  });
+
+  // Touch drag
+  let touchDragEl=null,touchClone=null,touchOffX=0,touchOffY=0;
+  const handle=el.querySelector('.drag-handle');
+  handle.addEventListener('touchstart',e=>{
+    e.preventDefault();
+    touchDragEl=el;
+    const t=e.touches[0];
+    const rect=el.getBoundingClientRect();
+    touchOffX=t.clientX-rect.left;touchOffY=t.clientY-rect.top;
+    touchClone=el.cloneNode(true);
+    touchClone.style.cssText=`position:fixed;left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;opacity:0.85;z-index:999;pointer-events:none;border-radius:8px;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.12);`;
+    document.body.appendChild(touchClone);
+    el.style.opacity='0.3';
+  },{passive:false});
+  handle.addEventListener('touchmove',e=>{
+    if(!touchDragEl)return;
+    e.preventDefault();
+    const t=e.touches[0];
+    touchClone.style.left=(t.clientX-touchOffX)+'px';
+    touchClone.style.top=(t.clientY-touchOffY)+'px';
+    const under=document.elementFromPoint(t.clientX,t.clientY);
+    const overTask=under&&under.closest('.task');
+    document.querySelectorAll('.task').forEach(t2=>t2.classList.remove('drag-over'));
+    if(overTask&&overTask!==touchDragEl)overTask.classList.add('drag-over');
+  },{passive:false});
+  handle.addEventListener('touchend',e=>{
+    if(!touchDragEl)return;
+    const t=e.changedTouches[0];
+    const under=document.elementFromPoint(t.clientX,t.clientY);
+    const overTask=under&&under.closest('.task');
+    document.querySelectorAll('.task').forEach(t2=>t2.classList.remove('drag-over'));
+    if(overTask&&overTask!==touchDragEl){
+      const list=touchDragEl.parentNode;
+      const items=[...list.querySelectorAll('.task')];
+      const fromIdx=items.indexOf(touchDragEl);
+      const toIdx=items.indexOf(overTask);
+      if(fromIdx<toIdx)list.insertBefore(touchDragEl,overTask.nextSibling);
+      else list.insertBefore(touchDragEl,overTask);
+      saveOrdem(pid,sid,list);
+    }
+    touchDragEl.style.opacity='';
+    touchClone.remove();
+    touchDragEl=null;touchClone=null;
+  });
+
   return el;
 }
 
-window.toggleProjeto = function(pid) {
-  const current = dadosAtuais[pid].aberto || false;
-  update(ref(db, `projetos/${pid}`), { aberto: !current });
-};
+function saveOrdem(pid,sid,list){
+  const items=[...list.querySelectorAll('.task')];
+  const updates={};
+  items.forEach((el,i)=>{
+    const tid=el.dataset.tid;
+    updates[`projetos/${pid}/secoes/${sid}/tasks/${tid}/ordem`]=i;
+  });
+  update(ref(db),updates);
+}
 
-window.toggleTask = function(pid, sid, tid) {
-  const current = dadosAtuais[pid].secoes[sid].tasks[tid].done;
-  update(ref(db, `projetos/${pid}/secoes/${sid}/tasks/${tid}`), { done: !current });
-};
+function toggleProjeto(pid){
+  const current=dadosAtuais[pid].aberto||false;
+  update(ref(db,`projetos/${pid}`),{aberto:!current});
+}
 
-window.addTask = function(pid, sid, inputId) {
-  const inp = document.getElementById(inputId);
-  const val = inp.value.trim();
-  if (!val) return;
-  const id = uid();
-  set(ref(db, `projetos/${pid}/secoes/${sid}/tasks/${id}`), { label: val, done: false });
-  inp.value = '';
-};
+function toggleTask(pid,sid,tid){
+  const current=dadosAtuais[pid].secoes[sid].tasks[tid].done;
+  update(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`),{done:!current});
+}
 
-window.deleteTask = function(e, pid, sid, tid) {
-  e.stopPropagation();
-  if (confirm('Remover essa tarefa?')) {
-    remove(ref(db, `projetos/${pid}/secoes/${sid}/tasks/${tid}`));
-  }
-};
+function addTask(pid,sid,inputId){
+  const inp=document.getElementById(inputId);
+  const val=inp.value.trim();if(!val)return;
+  const tasks=dadosAtuais[pid]?.secoes?.[sid]?.tasks||{};
+  const maxOrdem=Object.values(tasks).reduce((m,t)=>Math.max(m,t.ordem||0),-1);
+  const id=uid();
+  set(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${id}`),{label:val,done:false,ordem:maxOrdem+1,nota:''});
+  inp.value='';
+}
 
-// Conectar e escutar
-onValue(rootRef, (snap) => {
-  const dot = document.getElementById('syncDot');
-  const lbl = document.getElementById('syncLabel');
-  dot.classList.remove('offline');
-  lbl.textContent = 'Sincronizado';
-
-  if (!snap.exists()) {
-    set(rootRef, DADOS_INICIAIS);
-  } else {
-    renderPainel(snap.val());
-  }
-}, (err) => {
+const rootRef=ref(db,'projetos');
+onValue(rootRef,snap=>{
+  const dot=document.getElementById('syncDot');
+  const lbl=document.getElementById('syncLabel');
+  dot.classList.remove('offline');lbl.textContent='Sincronizado';
+  if(!snap.exists()){set(rootRef,DADOS_INICIAIS);}
+  else{renderPainel(snap.val());}
+},err=>{
   document.getElementById('syncDot').classList.add('offline');
-  document.getElementById('syncLabel').textContent = 'Sem conexão';
+  document.getElementById('syncLabel').textContent='Sem conexão';
 });
 </script>
 </body>
