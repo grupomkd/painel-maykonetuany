@@ -8,18 +8,26 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f0;color:#1a1a1a;min-height:100vh;-webkit-tap-highlight-color:transparent;}
 header{background:#fff;border-bottom:1px solid #e8e8e8;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-.logo{font-size:15px;font-weight:700;color:#1a1a1a;}.logo span{color:#d4537e;}
+.logo{font-size:15px;font-weight:700;}.logo span{color:#d4537e;}
 .sync-status{font-size:11px;color:#888;display:flex;align-items:center;gap:5px;}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;flex-shrink:0;}
 .sync-dot.offline{background:#f59e0b;}
 
+/* TABS */
+.tabs{display:flex;gap:0;border-bottom:1px solid #e8e8e8;background:#fff;padding:0 20px;position:sticky;top:53px;z-index:99;}
+.tab{padding:10px 16px;font-size:13px;font-weight:500;color:#888;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap;}
+.tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* LAYOUT */
 .layout{display:flex;gap:20px;max-width:1260px;margin:0 auto;padding:20px 14px;align-items:flex-start;}
 .col-tarefas{flex:1;min-width:0;display:flex;flex-direction:column;gap:16px;}
-.col-agenda{width:380px;flex-shrink:0;position:sticky;top:72px;}
+.col-agenda{width:390px;flex-shrink:0;position:sticky;top:90px;}
 
 /* PROJETOS */
 .projeto{background:#fff;border-radius:14px;border:1px solid #e8e8e8;overflow:hidden;}
-.projeto-header{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;-webkit-user-select:none;}
+.projeto-header{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;}
 .projeto-header-left{display:flex;align-items:center;gap:10px;}
 .projeto-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
 .projeto-titulo{font-size:14px;font-weight:600;}
@@ -27,17 +35,17 @@ header{background:#fff;border-bottom:1px solid #e8e8e8;padding:14px 20px;display
 .projeto-right{display:flex;align-items:center;gap:8px;}
 .progress-wrap{display:flex;align-items:center;gap:6px;}
 .progress-bar{width:60px;height:4px;background:#f0f0f0;border-radius:99px;overflow:hidden;}
-.progress-fill{height:100%;border-radius:99px;transition:width 0.4s;}
+.progress-fill{height:100%;border-radius:99px;transition:width .4s;}
 .progress-pct{font-size:11px;color:#888;min-width:24px;text-align:right;}
-.chevron{font-size:11px;color:#bbb;transition:transform 0.2s;margin-left:2px;}
+.chevron{font-size:11px;color:#bbb;transition:transform .2s;margin-left:2px;}
 .chevron.open{transform:rotate(180deg);}
 .projeto-body{padding:0 18px 16px;display:none;}
 .projeto-body.open{display:block;}
 .secao{margin-top:14px;}
-.secao-titulo{font-size:10px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
+.secao-titulo{font-size:10px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
 .tasks{display:flex;flex-direction:column;gap:2px;}
 .task{border-radius:8px;border:1px solid transparent;background:#fff;transition:background .12s,border-color .12s;}
-.task.dragging{opacity:0.4;border:1px dashed #ccc;}
+.task.dragging{opacity:.4;border:1px dashed #ccc;}
 .task.drag-over{border-color:#d4537e;background:#fff5f8;}
 .task-main{display:flex;align-items:flex-start;gap:8px;padding:7px 8px 4px;}
 .drag-handle{color:#ccc;cursor:grab;font-size:14px;padding:1px 2px;flex-shrink:0;touch-action:none;line-height:1.4;}
@@ -59,8 +67,8 @@ header{background:#fff;border-bottom:1px solid #e8e8e8;padding:14px 20px;display
 .add-row{display:flex;gap:6px;margin-top:6px;padding:0 4px;}
 .add-input{flex:1;font-size:13px;padding:8px 10px;border-radius:8px;border:1px solid #e0e0e0;outline:none;background:#fafafa;color:#1a1a1a;}
 .add-input:focus{border-color:#ccc;background:#fff;}
-.add-btn{font-size:13px;padding:8px 14px;border-radius:8px;border:1px solid #e0e0e0;background:#fff;color:#555;cursor:pointer;white-space:nowrap;}
-.add-btn:hover{background:#f5f5f5;}
+.add-btn-sm{font-size:13px;padding:8px 14px;border-radius:8px;border:1px solid #e0e0e0;background:#fff;color:#555;cursor:pointer;white-space:nowrap;}
+.add-btn-sm:hover{background:#f5f5f5;}
 .divider{height:1px;background:#f0f0f0;margin:14px 0 0;}
 .custos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;margin-bottom:8px;}
 .custo-card{background:#fafafa;border-radius:8px;padding:9px 11px;}
@@ -70,54 +78,72 @@ header{background:#fff;border-bottom:1px solid #e8e8e8;padding:14px 20px;display
 .total-label{font-size:12px;color:#666;}
 .total-val{font-size:16px;font-weight:700;}
 
-/* AGENDA TIPO GOOGLE */
+/* AGENDA CARD */
 .agenda-card{background:#fff;border-radius:14px;border:1px solid #e8e8e8;overflow:hidden;}
-.agenda-top{padding:12px 14px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f0f0f0;}
+.agenda-top{padding:10px 14px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f0f0f0;}
 .agenda-titulo-wrap{display:flex;align-items:center;gap:8px;}
-.agenda-titulo{font-size:14px;font-weight:600;}
-.agenda-hoje-btn{font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid #e0e0e0;background:#fff;color:#555;cursor:pointer;}
-.agenda-hoje-btn:hover{background:#f5f5f5;}
+.cal-mes-ano{font-size:13px;font-weight:600;min-width:120px;}
+.btn-hoje{font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid #e0e0e0;background:#fff;color:#555;cursor:pointer;}
+.btn-hoje:hover{background:#f5f5f5;}
 .cal-nav-btns{display:flex;gap:2px;}
 .cal-nav-btn{border:none;background:none;color:#555;font-size:16px;cursor:pointer;padding:3px 7px;border-radius:6px;}
 .cal-nav-btn:hover{background:#f0f0f0;}
-.cal-mes-ano{font-size:13px;font-weight:600;color:#1a1a1a;min-width:130px;text-align:center;}
-
-/* GRADE CALENDÁRIO */
-.cal-wrap{padding:6px 8px 2px;}
-.cal-header-dias{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:2px;}
-.cal-hd{font-size:10px;color:#aaa;text-align:center;padding:2px 0;font-weight:500;}
+/* MINI-CAL */
+.cal-wrap{padding:6px 8px 4px;}
+.cal-hd-row{display:grid;grid-template-columns:repeat(7,1fr);}
+.cal-hd{font-size:10px;color:#aaa;text-align:center;padding:2px 0;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
-.cal-cell{min-height:54px;padding:3px 2px;border-radius:6px;cursor:pointer;transition:background .1s;position:relative;vertical-align:top;}
+.cal-cell{min-height:48px;padding:2px;border-radius:6px;cursor:pointer;transition:background .1s;position:relative;}
 .cal-cell:hover{background:#f5f5f5;}
 .cal-cell.outro-mes .cal-num{color:#d0d0d0;}
-.cal-num{font-size:12px;text-align:center;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 2px;font-weight:400;}
+.cal-num{font-size:11px;text-align:center;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 2px;}
 .cal-cell.hoje .cal-num{background:#1a73e8;color:#fff;font-weight:600;}
 .cal-cell.selecionado:not(.hoje) .cal-num{background:#e8f0fe;color:#1a73e8;font-weight:600;}
-.cal-cell.casamento .cal-num{background:#d4537e;color:#fff;font-weight:700;}
+.cal-cell.casamento-day .cal-num{background:#d4537e;color:#fff;font-weight:700;}
 .cal-eventos{display:flex;flex-direction:column;gap:1px;}
-.cal-ev-pill{font-size:9px;padding:1px 4px;border-radius:3px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.4;cursor:pointer;}
-.cal-ev-mais{font-size:9px;color:#666;padding:0 3px;}
+.cal-ev-pill{font-size:8px;padding:1px 3px;border-radius:3px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.4;}
+.cal-ev-mais{font-size:8px;color:#888;padding:0 2px;}
 
-/* LISTA EVENTOS DIA */
-.agenda-dia-wrap{border-top:1px solid #f0f0f0;padding:10px 14px 14px;max-height:220px;overflow-y:auto;}
-.agenda-dia-titulo{font-size:11px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
-.evento-item{display:flex;align-items:flex-start;gap:8px;padding:6px 8px;border-radius:8px;margin-bottom:4px;border-left:3px solid #ddd;background:#fafafa;}
-.evento-hora{font-size:11px;color:#888;min-width:36px;margin-top:1px;flex-shrink:0;}
-.evento-info{flex:1;min-width:0;}
-.evento-label{font-size:12px;color:#1a1a1a;line-height:1.3;}
-.evento-proj{font-size:10px;color:#888;margin-top:1px;}
-.evento-del{font-size:14px;color:#ccc;cursor:pointer;border:none;background:none;padding:0 2px;flex-shrink:0;}
-.evento-del:hover{color:#e24b4a;}
-.sem-eventos{font-size:12px;color:#bbb;text-align:center;padding:14px 0;}
+/* LEGENDA */
+.legenda{display:flex;gap:10px;padding:6px 14px;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#555;}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;}
+/* ABAS AGENDA */
+.agenda-tabs{display:flex;border-bottom:1px solid #f0f0f0;}
+.agenda-tab{flex:1;padding:8px 4px;font-size:12px;font-weight:500;color:#aaa;text-align:center;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;}
+.agenda-tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+
+/* DIA VIEW - grade de horários */
+.dia-view{padding:10px 12px 12px;}
+.dia-view-titulo{font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:8px;}
+.horarios-grid{position:relative;}
+.hora-row{display:flex;gap:0;min-height:44px;border-top:1px solid #f5f5f5;}
+.hora-row:first-child{border-top:none;}
+.hora-label{font-size:10px;color:#aaa;width:36px;flex-shrink:0;padding-top:2px;text-align:right;padding-right:6px;}
+.hora-slots{flex:1;position:relative;min-height:44px;}
+.ev-bloco{position:absolute;left:0;right:2px;border-radius:4px;padding:2px 5px;font-size:10px;color:#fff;overflow:hidden;cursor:pointer;z-index:2;}
+.ev-bloco-titulo{font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ev-bloco-hora{opacity:.85;font-size:9px;}
+.add-ev-area{padding:8px 12px 12px;border-top:1px solid #f0f0f0;}
+.add-ev-titulo{font-size:11px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;}
+.add-ev-form{display:flex;flex-direction:column;gap:6px;}
+.add-ev-row{display:flex;gap:6px;}
+.add-ev-input{flex:1;font-size:12px;padding:7px 9px;border-radius:8px;border:1px solid #e0e0e0;outline:none;background:#fafafa;color:#1a1a1a;}
+.add-ev-input:focus{border-color:#ccc;background:#fff;}
+.add-ev-select{font-size:12px;padding:7px 9px;border-radius:8px;border:1px solid #e0e0e0;outline:none;background:#fafafa;color:#1a1a1a;cursor:pointer;}
+.add-ev-btn{font-size:12px;padding:7px 14px;border-radius:8px;border:none;background:#1a1a1a;color:#fff;cursor:pointer;white-space:nowrap;}
+.add-ev-btn:hover{background:#333;}
+.sem-eventos{font-size:12px;color:#bbb;text-align:center;padding:16px 0;}
+
+/* MODAL TAREFA */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;}
 .modal-overlay.hidden{display:none;}
-.modal{background:#fff;border-radius:14px;padding:20px;width:100%;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,0.15);}
+.modal{background:#fff;border-radius:14px;padding:20px;width:100%;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.15);}
 .modal-titulo{font-size:14px;font-weight:600;margin-bottom:4px;}
 .modal-task{font-size:12px;color:#666;margin-bottom:14px;line-height:1.4;}
 .modal label{font-size:11px;color:#888;display:block;margin-bottom:4px;margin-top:10px;}
-.modal input{width:100%;font-size:13px;padding:8px 10px;border-radius:8px;border:1px solid #e0e0e0;outline:none;color:#1a1a1a;background:#fafafa;}
+.modal input,.modal select{width:100%;font-size:13px;padding:8px 10px;border-radius:8px;border:1px solid #e0e0e0;outline:none;color:#1a1a1a;background:#fafafa;}
 .modal input:focus{border-color:#7f77dd;background:#fff;}
 .modal-btns{display:flex;gap:8px;margin-top:16px;}
 .modal-btn{flex:1;font-size:13px;padding:9px;border-radius:8px;border:1px solid #e0e0e0;cursor:pointer;background:#fff;color:#555;}
@@ -128,11 +154,12 @@ header{background:#fff;border-bottom:1px solid #e8e8e8;padding:14px 20px;display
 .modal-btn.danger:hover{background:#fff5f5;}
 .loading{text-align:center;padding:60px 20px;color:#aaa;font-size:14px;}
 
-@media(max-width:760px){
+@media(max-width:800px){
   .layout{flex-direction:column;padding:12px 10px;gap:14px;}
   .col-agenda{width:100%;position:static;}
   .projeto-body{padding:0 14px 14px;}
   .progress-bar{width:44px;}
+  .tabs{padding:0 10px;}
 }
 </style>
 </head>
@@ -141,37 +168,39 @@ header{background:#fff;border-bottom:1px solid #e8e8e8;padding:14px 20px;display
   <div class="logo">Maykon <span>&</span> Tuany</div>
   <div class="sync-status"><div class="sync-dot" id="syncDot"></div><span id="syncLabel">Conectando...</span></div>
 </header>
-<div class="layout">
-  <div class="col-tarefas" id="painel"><div class="loading">Carregando...</div></div>
-  <div class="col-agenda">
-    <div class="agenda-card">
-      <div class="agenda-top">
-        <div class="agenda-titulo-wrap">
-          <span class="cal-mes-ano" id="calMesAno"></span>
-          <button class="agenda-hoje-btn" id="btnHoje">Hoje</button>
-        </div>
-        <div class="cal-nav-btns">
-          <button class="cal-nav-btn" id="calPrev">‹</button>
-          <button class="cal-nav-btn" id="calNext">›</button>
-        </div>
-      </div>
-      <div class="cal-wrap">
-        <div class="cal-header-dias" id="calHeaderDias"></div>
-        <div class="cal-grid" id="calGrid"></div>
-      </div>
-      <div class="agenda-dia-wrap">
-        <div class="agenda-dia-titulo" id="agendaDiaTitulo"></div>
-        <div id="agendaEventos"></div>
-      </div>
+
+<div class="tabs">
+  <div class="tab active" onclick="mudarTab('projetos',this)">📋 Projetos</div>
+  <div class="tab" onclick="mudarTab('agenda',this)">📅 Agenda completa</div>
+</div>
+
+<!-- PAINEL PROJETOS -->
+<div class="tab-panel active" id="tab-projetos">
+  <div class="layout">
+    <div class="col-tarefas" id="painel"><div class="loading">Carregando...</div></div>
+    <div class="col-agenda">
+      <div class="agenda-card" id="agendaCard"></div>
     </div>
   </div>
 </div>
+
+<!-- ABA AGENDA COMPLETA -->
+<div class="tab-panel" id="tab-agenda">
+  <div style="max-width:900px;margin:0 auto;padding:20px 14px;">
+    <div class="agenda-card">
+      <div id="agendaFullCard"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TAREFA -->
 <div class="modal-overlay hidden" id="modalOverlay">
   <div class="modal">
     <div class="modal-titulo">Agendar tarefa</div>
     <div class="modal-task" id="modalTaskLabel"></div>
     <label>Data</label><input type="date" id="modalData">
-    <label>Horário</label><input type="time" id="modalHora" value="09:00">
+    <label>Horário início</label><input type="time" id="modalHora" value="09:00">
+    <label>Horário fim</label><input type="time" id="modalHoraFim" value="10:00">
     <div class="modal-btns">
       <button class="modal-btn" onclick="fecharModal()">Cancelar</button>
       <button class="modal-btn danger hidden" id="btnRemoverAgenda" onclick="removerAgenda()">Remover</button>
@@ -179,9 +208,22 @@ header{background:#fff;border-bottom:1px solid #e8e8e8;padding:14px 20px;display
     </div>
   </div>
 </div>
+
+<!-- MODAL EVENTO -->
+<div class="modal-overlay hidden" id="modalEvOverlay">
+  <div class="modal">
+    <div class="modal-titulo">Detalhes do evento</div>
+    <div id="modalEvConteudo" style="margin:10px 0;font-size:13px;color:#555;line-height:1.6;"></div>
+    <div class="modal-btns">
+      <button class="modal-btn" onclick="document.getElementById('modalEvOverlay').classList.add('hidden')">Fechar</button>
+      <button class="modal-btn danger" id="btnDelEv" onclick="deletarEvModal()">Remover</button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase,ref,set,onValue,update,remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase,ref,set,onValue,update,remove,push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig={apiKey:"AIzaSyB_UTg8NWYSS3SlzSsJdgvrdkhuRZLFjB0",authDomain:"painel-maykonetuany.firebaseapp.com",databaseURL:"https://painel-maykonetuany-default-rtdb.firebaseio.com",projectId:"painel-maykonetuany",storageBucket:"painel-maykonetuany.firebasestorage.app",messagingSenderId:"1007144969805",appId:"1:1007144969805:web:bd5218f66ada235b491e04"};
 const app=initializeApp(firebaseConfig);
@@ -243,127 +285,368 @@ const DADOS_INICIAIS={
   }
 };
 
-const PROJ_CORES={casamento:'#d4537e',maykon:'#378add',tuany:'#7f77dd'};
+const CORES={
+  maykon:'#22c55e',   // verde
+  tuany:'#d4537e',    // rosa
+  casamento:'#1a73e8',// azul
+  tarefa:'#7f77dd'    // roxo (tarefas agendadas)
+};
+const PROJ_CORES_PROJ={casamento:'#d4537e',maykon:'#378add',tuany:'#7f77dd'};
 const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 const CASAMENTO_DATE='2026-11-07';
+const HORAS_DIA=Array.from({length:16},(_,i)=>i+7); // 7h até 22h
 
-let dadosAtuais={},agendaAtual={},dragSrc=null;
-let calAtual=new Date();
-let diaSelecionado=fmtDate(new Date());
-let modalCtx={};
+let dadosAtuais={},agendaAtual={},compromissosAtual={};
+let calAtual=new Date(),diaSelecionado=fmtDate(new Date()),dragSrc=null,modalCtx={},modalEvCtx={};
 
 function fmtDate(d){return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());}
 function p2(n){return String(n).padStart(2,'0');}
-function uid(){return 't'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function uid(){return 'e'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
 function fmtBRL(v){return'R$ '+Number(v).toLocaleString('pt-BR');}
 function calcProgress(secoes){if(!secoes)return 0;let t=0,d=0;Object.values(secoes).forEach(s=>{if(s.tasks)Object.values(s.tasks).forEach(tk=>{t++;if(tk.done)d++;});});return t===0?0:Math.round((d/t)*100);}
+function minutos(h){if(!h)return 0;const[hh,mm]=h.split(':');return parseInt(hh)*60+parseInt(mm||0);}
+function nomeDiaLong(dateStr){const[a,m,d]=dateStr.split('-');return new Date(+a,+m-1,+d).toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});}
 
-// ---- CALENDÁRIO TIPO GOOGLE ----
+window.mudarTab=function(id,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  if(id==='agenda')renderAgendaFull();
+};
+
+// ===== CALENDÁRIO MINI =====
+function renderAgendaCard(){
+  const card=document.getElementById('agendaCard');
+  card.innerHTML='';
+
+  // Topo
+  const top=document.createElement('div');top.className='agenda-top';
+  top.innerHTML=`<div class="agenda-titulo-wrap"><span class="cal-mes-ano" id="calMesAno"></span><button class="btn-hoje" id="btnHoje">Hoje</button></div><div class="cal-nav-btns"><button class="cal-nav-btn" id="calPrev">‹</button><button class="cal-nav-btn" id="calNext">›</button></div>`;
+  card.appendChild(top);
+
+  // Legenda
+  const leg=document.createElement('div');leg.className='legenda';
+  leg.innerHTML=`<div class="leg-item"><div class="leg-dot" style="background:${CORES.maykon}"></div>Maykon</div><div class="leg-item"><div class="leg-dot" style="background:${CORES.tuany}"></div>Tuany</div><div class="leg-item"><div class="leg-dot" style="background:${CORES.casamento}"></div>Casamento</div><div class="leg-item"><div class="leg-dot" style="background:${CORES.tarefa}"></div>Tarefas</div>`;
+  card.appendChild(leg);
+
+  // Cal wrap
+  const cw=document.createElement('div');cw.className='cal-wrap';
+  const hd=document.createElement('div');hd.className='cal-hd-row';DS.forEach(d=>{const e=document.createElement('div');e.className='cal-hd';e.textContent=d;hd.appendChild(e);});
+  cw.appendChild(hd);
+  const grid=document.createElement('div');grid.className='cal-grid';grid.id='calGrid';
+  cw.appendChild(grid);card.appendChild(cw);
+
+  // Abas dia
+  const atabs=document.createElement('div');atabs.className='agenda-tabs';
+  atabs.innerHTML=`<div class="agenda-tab active" id="aTab0" onclick="switchAgendaTab(0)">Horários</div><div class="agenda-tab" id="aTab1" onclick="switchAgendaTab(1)">+ Compromisso</div>`;
+  card.appendChild(atabs);
+
+  const dv=document.createElement('div');dv.id='diaViewWrap';card.appendChild(dv);
+  const av=document.createElement('div');av.id='addEvWrap';av.style.display='none';card.appendChild(av);
+
+  top.querySelector('#btnHoje').addEventListener('click',()=>{calAtual=new Date();diaSelecionado=fmtDate(new Date());renderCal();renderDiaView();});
+  top.querySelector('#calPrev').addEventListener('click',()=>{calAtual.setMonth(calAtual.getMonth()-1);renderCal();});
+  top.querySelector('#calNext').addEventListener('click',()=>{calAtual.setMonth(calAtual.getMonth()+1);renderCal();});
+
+  renderCal();renderDiaView();renderAddEv();
+}
+
+window.switchAgendaTab=function(idx){
+  document.getElementById('aTab0').classList.toggle('active',idx===0);
+  document.getElementById('aTab1').classList.toggle('active',idx===1);
+  document.getElementById('diaViewWrap').style.display=idx===0?'':'none';
+  document.getElementById('addEvWrap').style.display=idx===1?'':'none';
+};
+
 function renderCal(){
   const mes=calAtual.getMonth(),ano=calAtual.getFullYear();
-  document.getElementById('calMesAno').textContent=MESES[mes]+' '+ano;
-  // Header dias
-  const hd=document.getElementById('calHeaderDias');hd.innerHTML='';
-  DS.forEach(d=>{const el=document.createElement('div');el.className='cal-hd';el.textContent=d;hd.appendChild(el);});
-  const grid=document.getElementById('calGrid');grid.innerHTML='';
+  const mAno=document.getElementById('calMesAno');if(mAno)mAno.textContent=MESES[mes]+' '+ano;
+  const grid=document.getElementById('calGrid');if(!grid)return;grid.innerHTML='';
   const primeiro=new Date(ano,mes,1).getDay();
   const diasMes=new Date(ano,mes+1,0).getDate();
   const diasAntes=new Date(ano,mes,0).getDate();
   const todayStr=fmtDate(new Date());
+  const todasDatas={};
+  // juntar agenda de tarefas + compromissos
+  Object.entries(agendaAtual).forEach(([d,evs])=>{Object.values(evs).forEach(ev=>{if(!todasDatas[d])todasDatas[d]=[];todasDatas[d].push({...ev,tipo:'tarefa',cor:CORES.tarefa});});});
+  Object.entries(compromissosAtual).forEach(([d,evs])=>{Object.values(evs).forEach(ev=>{if(!todasDatas[d])todasDatas[d]=[];todasDatas[d].push({...ev,cor:CORES[ev.pessoa]||CORES.casamento});});});
+  if(!todasDatas[CASAMENTO_DATE])todasDatas[CASAMENTO_DATE]=[];
+  todasDatas[CASAMENTO_DATE].unshift({label:'💒 Casamento!',cor:CORES.casamento,tipo:'especial'});
 
-  // Células do mês anterior
   for(let i=0;i<primeiro;i++){
     const d=diasAntes-primeiro+1+i;
-    const dateStr=(ano-(mes===0?1:0))+'-'+p2(mes===0?12:mes)+'-'+p2(d);
-    grid.appendChild(makeCell(d,dateStr,true,todayStr));
+    grid.appendChild(makeCell(d,null,true,todayStr,[]));
   }
-  // Dias do mês
   for(let d=1;d<=diasMes;d++){
-    const dateStr=ano+'-'+p2(mes+1)+'-'+p2(d);
-    grid.appendChild(makeCell(d,dateStr,false,todayStr));
+    const ds=ano+'-'+p2(mes+1)+'-'+p2(d);
+    const evs=todasDatas[ds]||[];
+    grid.appendChild(makeCell(d,ds,false,todayStr,evs));
   }
-  // Células do próximo mês
-  const total=primeiro+diasMes;
-  const resto=total%7===0?0:7-(total%7);
-  for(let d=1;d<=resto;d++){
-    const dateStr=(ano+(mes===11?1:0))+'-'+p2(mes===11?1:mes+2)+'-'+p2(d);
-    grid.appendChild(makeCell(d,dateStr,true,todayStr));
-  }
+  const total=primeiro+diasMes;const resto=total%7===0?0:7-(total%7);
+  for(let d=1;d<=resto;d++)grid.appendChild(makeCell(d,null,true,todayStr,[]));
 }
 
-function makeCell(dayNum,dateStr,outroMes,todayStr){
+function makeCell(dayNum,dateStr,outro,todayStr,evs){
   const cell=document.createElement('div');
-  let cls='cal-cell'+(outroMes?' outro-mes':'');
+  let cls='cal-cell'+(outro?' outro-mes':'');
   if(dateStr===todayStr)cls+=' hoje';
   if(dateStr===diaSelecionado&&dateStr!==todayStr)cls+=' selecionado';
-  if(dateStr===CASAMENTO_DATE)cls+=' casamento';
+  if(dateStr===CASAMENTO_DATE)cls+=' casamento-day';
   cell.className=cls;
-
-  const num=document.createElement('div');num.className='cal-num';num.textContent=dayNum;
-  cell.appendChild(num);
-
-  // Eventos do dia
-  const evDia=agendaAtual[dateStr]||{};
-  const evList=Object.values(evDia).sort((a,b)=>(a.hora||'').localeCompare(b.hora||''));
-  const evWrap=document.createElement('div');evWrap.className='cal-eventos';
-  const max=2;
-  evList.slice(0,max).forEach(ev=>{
-    const pill=document.createElement('div');
-    pill.className='cal-ev-pill';
-    pill.style.background=PROJ_CORES[ev.pid]||'#888';
-    pill.textContent=(ev.hora?ev.hora.slice(0,5)+' ':'')+ev.label;
-    pill.title=ev.label;
-    evWrap.appendChild(pill);
-  });
-  if(evList.length>max){const m=document.createElement('div');m.className='cal-ev-mais';m.textContent='+'+(evList.length-max)+' mais';evWrap.appendChild(m);}
-  // Casamento especial
-  if(dateStr===CASAMENTO_DATE&&!outroMes){
-    const pill=document.createElement('div');pill.className='cal-ev-pill';pill.style.background='#d4537e';pill.textContent='💒 Casamento!';pill.style.fontWeight='600';
-    evWrap.insertBefore(pill,evWrap.firstChild);
-  }
-  cell.appendChild(evWrap);
-  cell.addEventListener('click',()=>{diaSelecionado=dateStr;renderCal();renderEventosDia();});
+  const num=document.createElement('div');num.className='cal-num';num.textContent=dayNum;cell.appendChild(num);
+  const ew=document.createElement('div');ew.className='cal-eventos';
+  const sorted=evs.sort((a,b)=>(a.hora||'').localeCompare(b.hora||''));
+  sorted.slice(0,2).forEach(ev=>{const p=document.createElement('div');p.className='cal-ev-pill';p.style.background=ev.cor||'#888';p.textContent=(ev.hora?ev.hora.slice(0,5)+' ':'')+ev.label;p.title=ev.label;ew.appendChild(p);});
+  if(evs.length>2){const m=document.createElement('div');m.className='cal-ev-mais';m.textContent='+'+(evs.length-2)+' mais';ew.appendChild(m);}
+  cell.appendChild(ew);
+  if(dateStr&&!outro)cell.addEventListener('click',()=>{diaSelecionado=dateStr;renderCal();renderDiaView();switchAgendaTab(0);});
   return cell;
 }
 
-function renderEventosDia(){
-  const [ano,mes,dia]=diaSelecionado.split('-');
-  const nomeDia=new Date(Number(ano),Number(mes)-1,Number(dia)).toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
-  document.getElementById('agendaDiaTitulo').textContent=nomeDia;
-  const container=document.getElementById('agendaEventos');container.innerHTML='';
-  const evs=agendaAtual[diaSelecionado]||{};
-  const lista=Object.entries(evs).sort((a,b)=>(a[1].hora||'').localeCompare(b[1].hora||''));
+// ===== GRADE DE HORÁRIOS DO DIA =====
+function renderDiaView(){
+  const wrap=document.getElementById('diaViewWrap');if(!wrap)return;
+  wrap.innerHTML='';
+  const dv=document.createElement('div');dv.className='dia-view';
+
+  const titulo=document.createElement('div');titulo.className='dia-view-titulo';
+  titulo.textContent=nomeDiaLong(diaSelecionado);dv.appendChild(titulo);
+
+  // Casamento especial
   if(diaSelecionado===CASAMENTO_DATE){
-    const sp=document.createElement('div');
-    sp.className='evento-item';sp.style.borderLeftColor='#d4537e';sp.style.background='#fff5f8';
-    sp.innerHTML=`<span class="evento-hora">Dia 🎉</span><div class="evento-info"><div class="evento-label" style="font-weight:600;color:#d4537e">💒 Casamento Maykon & Tuany</div><div class="evento-proj">O grande dia!</div></div>`;
-    container.appendChild(sp);
+    const sp=document.createElement('div');sp.style.cssText='background:#fff0f5;border-left:3px solid #d4537e;border-radius:6px;padding:7px 10px;margin-bottom:10px;font-size:12px;font-weight:600;color:#d4537e;';
+    sp.textContent='💒 Dia do Casamento Maykon & Tuany!';dv.appendChild(sp);
   }
-  if(lista.length===0&&diaSelecionado!==CASAMENTO_DATE){container.innerHTML='<div class="sem-eventos">Nenhum evento</div>';return;}
-  lista.forEach(([eid,ev])=>{
-    const el=document.createElement('div');el.className='evento-item';el.style.borderLeftColor=PROJ_CORES[ev.pid]||'#ccc';
-    el.innerHTML=`<span class="evento-hora">${ev.hora||'—'}</span><div class="evento-info"><div class="evento-label">${ev.label}</div><div class="evento-proj">${ev.projetoNome||''}</div></div><button class="evento-del">×</button>`;
-    el.querySelector('.evento-del').addEventListener('click',()=>{
-      remove(ref(db,`agenda/${diaSelecionado}/${eid}`));
-      if(ev.pid&&ev.sid&&ev.tid)update(ref(db,`projetos/${ev.pid}/secoes/${ev.sid}/tasks/${ev.tid}`),{agendaId:null,agendaData:null,agendaHora:null});
+
+  // Junta eventos do dia
+  const tevs=agendaAtual[diaSelecionado]||{};
+  const cevs=compromissosAtual[diaSelecionado]||{};
+  const todos=[];
+  Object.entries(tevs).forEach(([eid,ev])=>todos.push({...ev,eid,tipo:'tarefa',cor:CORES.tarefa,srcRef:`agenda/${diaSelecionado}/${eid}`}));
+  Object.entries(cevs).forEach(([eid,ev])=>todos.push({...ev,eid,tipo:'compromisso',cor:CORES[ev.pessoa]||CORES.casamento,srcRef:`compromissos/${diaSelecionado}/${eid}`}));
+
+  if(todos.length===0&&diaSelecionado!==CASAMENTO_DATE){
+    const s=document.createElement('div');s.className='sem-eventos';s.textContent='Dia livre — nenhum compromisso';dv.appendChild(s);
+    wrap.appendChild(dv);return;
+  }
+
+  // Grade de horas
+  const hg=document.createElement('div');hg.className='horarios-grid';
+  HORAS_DIA.forEach(h=>{
+    const row=document.createElement('div');row.className='hora-row';
+    const lbl=document.createElement('div');lbl.className='hora-label';lbl.textContent=h+'h';
+    const slots=document.createElement('div');slots.className='hora-slots';
+
+    // Eventos que começam nessa hora
+    const horaStr=p2(h)+':00';
+    const evsDaHora=todos.filter(ev=>{
+      const inicio=minutos(ev.hora||'00:00');
+      return inicio>=h*60&&inicio<(h+1)*60;
     });
-    container.appendChild(el);
+    evsDaHora.forEach(ev=>{
+      const inicio=minutos(ev.hora||horaStr);
+      const fim=minutos(ev.horaFim||ev.hora||horaStr)+60;
+      const durMin=Math.max(fim-inicio,30);
+      const topPct=((inicio-h*60)/60)*100;
+      const altura=Math.max((durMin/60)*44,24);
+      const bloco=document.createElement('div');bloco.className='ev-bloco';
+      bloco.style.cssText=`background:${ev.cor};top:${topPct}%;height:${altura}px;`;
+      bloco.innerHTML=`<div class="ev-bloco-titulo">${ev.label}</div><div class="ev-bloco-hora">${ev.hora||''}${ev.horaFim?' – '+ev.horaFim:''} ${ev.pessoa?'· '+(ev.pessoa==='maykon'?'Maykon':'Tuany'):''}</div>`;
+      bloco.addEventListener('click',()=>abrirModalEv(ev));
+      slots.appendChild(bloco);
+    });
+    row.appendChild(lbl);row.appendChild(slots);hg.appendChild(row);
   });
+  dv.appendChild(hg);
+  wrap.appendChild(dv);
 }
 
-// ---- MODAL ----
-window.abrirModal=function(pid,sid,tid,label,barColor){
-  modalCtx={pid,sid,tid,label,barColor};
+function abrirModalEv(ev){
+  modalEvCtx=ev;
+  document.getElementById('modalEvConteudo').innerHTML=`<b>${ev.label}</b><br>${ev.hora||''}${ev.horaFim?' – '+ev.horaFim:''}<br>${ev.pessoa?'<span style="color:'+ev.cor+'">■</span> '+(ev.pessoa==='maykon'?'Maykon':'Tuany')+(ev.pessoa==='casamento'?' (Casamento)':''):'Tarefa agendada'}${ev.nota?'<br><i style="color:#888">'+ev.nota+'</i>':''}`;
+  document.getElementById('modalEvOverlay').classList.remove('hidden');
+}
+window.deletarEvModal=function(){
+  if(!modalEvCtx)return;
+  if(confirm('Remover este evento?')){
+    remove(ref(db,modalEvCtx.srcRef));
+    if(modalEvCtx.tipo==='tarefa'&&modalEvCtx.pid&&modalEvCtx.sid&&modalEvCtx.tid){
+      update(ref(db,`projetos/${modalEvCtx.pid}/secoes/${modalEvCtx.sid}/tasks/${modalEvCtx.tid}`),{agendaId:null,agendaData:null,agendaHora:null,agendaHoraFim:null});
+    }
+  }
+  document.getElementById('modalEvOverlay').classList.add('hidden');
+};
+document.getElementById('modalEvOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.classList.add('hidden');});
+
+// ===== ADD COMPROMISSO =====
+function renderAddEv(){
+  const wrap=document.getElementById('addEvWrap');if(!wrap)return;
+  wrap.innerHTML='';
+  const area=document.createElement('div');area.className='add-ev-area';
+  area.innerHTML=`<div class="add-ev-titulo">Novo compromisso</div>
+  <div class="add-ev-form">
+    <input class="add-ev-input" id="evTitulo" placeholder="Título do compromisso">
+    <div class="add-ev-row">
+      <input class="add-ev-input" type="date" id="evData" value="${diaSelecionado}">
+    </div>
+    <div class="add-ev-row">
+      <input class="add-ev-input" type="time" id="evInicio" value="09:00" style="flex:1">
+      <span style="align-self:center;color:#aaa;font-size:12px;padding:0 4px;">até</span>
+      <input class="add-ev-input" type="time" id="evFim" value="10:00" style="flex:1">
+    </div>
+    <div class="add-ev-row">
+      <select class="add-ev-select" id="evPessoa" style="flex:1">
+        <option value="maykon">🟢 Maykon</option>
+        <option value="tuany">🌸 Tuany</option>
+        <option value="casamento">💍 Casamento</option>
+      </select>
+      <button class="add-ev-btn" id="btnAddEv">Salvar</button>
+    </div>
+  </div>`;
+  area.querySelector('#btnAddEv').addEventListener('click',()=>{
+    const titulo=area.querySelector('#evTitulo').value.trim();
+    const data=area.querySelector('#evData').value;
+    const inicio=area.querySelector('#evInicio').value;
+    const fim=area.querySelector('#evFim').value;
+    const pessoa=area.querySelector('#evPessoa').value;
+    if(!titulo||!data||!inicio)return;
+    push(ref(db,`compromissos/${data}`),{label:titulo,hora:inicio,horaFim:fim,pessoa});
+    area.querySelector('#evTitulo').value='';
+    diaSelecionado=data;
+    switchAgendaTab(0);
+    renderCal();renderDiaView();
+  });
+  wrap.appendChild(area);
+}
+
+// ===== AGENDA FULL (aba separada) =====
+function renderAgendaFull(){
+  const card=document.getElementById('agendaFullCard');card.innerHTML='';
+  const mes=calAtual.getMonth(),ano=calAtual.getFullYear();
+
+  // Nav
+  const nav=document.createElement('div');nav.className='agenda-top';
+  nav.innerHTML=`<div class="agenda-titulo-wrap"><span class="cal-mes-ano" id="fullMesAno">${MESES[mes]} ${ano}</span><button class="btn-hoje" id="fullHoje">Hoje</button></div><div class="cal-nav-btns"><button class="cal-nav-btn" id="fullPrev">‹</button><button class="cal-nav-btn" id="fullNext">›</button></div>`;
+  card.appendChild(nav);
+
+  const leg=document.createElement('div');leg.className='legenda';
+  leg.innerHTML=`<div class="leg-item"><div class="leg-dot" style="background:${CORES.maykon}"></div>Maykon</div><div class="leg-item"><div class="leg-dot" style="background:${CORES.tuany}"></div>Tuany</div><div class="leg-item"><div class="leg-dot" style="background:${CORES.casamento}"></div>Casamento</div><div class="leg-item"><div class="leg-dot" style="background:${CORES.tarefa}"></div>Tarefas dos projetos</div>`;
+  card.appendChild(leg);
+
+  // Grid grande
+  const cw=document.createElement('div');cw.style.padding='8px 12px 12px';
+  const hdRow=document.createElement('div');hdRow.className='cal-hd-row';
+  DS.forEach(d=>{const e=document.createElement('div');e.className='cal-hd';e.style.fontSize='12px';e.style.padding='4px 0';e.textContent=d;hdRow.appendChild(e);});
+  cw.appendChild(hdRow);
+
+  const grid=document.createElement('div');grid.className='cal-grid';grid.id='calGridFull';
+  cw.appendChild(grid);card.appendChild(cw);
+
+  // Add compromisso inline
+  const addSec=document.createElement('div');addSec.className='add-ev-area';addSec.style.borderTop='1px solid #f0f0f0';
+  addSec.innerHTML=`<div class="add-ev-titulo">Novo compromisso</div>
+  <div class="add-ev-form">
+    <input class="add-ev-input" id="fevTitulo" placeholder="Título">
+    <div class="add-ev-row">
+      <input class="add-ev-input" type="date" id="fevData" value="${diaSelecionado}">
+      <input class="add-ev-input" type="time" id="fevInicio" value="09:00">
+      <span style="align-self:center;color:#aaa;font-size:12px;padding:0 4px;">até</span>
+      <input class="add-ev-input" type="time" id="fevFim" value="10:00">
+      <select class="add-ev-select" id="fevPessoa">
+        <option value="maykon">🟢 Maykon</option>
+        <option value="tuany">🌸 Tuany</option>
+        <option value="casamento">💍 Casamento</option>
+      </select>
+      <button class="add-ev-btn" id="btnFevAdd">Salvar</button>
+    </div>
+  </div>`;
+  card.appendChild(addSec);
+  addSec.querySelector('#btnFevAdd').addEventListener('click',()=>{
+    const titulo=addSec.querySelector('#fevTitulo').value.trim();
+    const data=addSec.querySelector('#fevData').value;
+    const inicio=addSec.querySelector('#fevInicio').value;
+    const fim=addSec.querySelector('#fevFim').value;
+    const pessoa=addSec.querySelector('#fevPessoa').value;
+    if(!titulo||!data||!inicio)return;
+    push(ref(db,`compromissos/${data}`),{label:titulo,hora:inicio,horaFim:fim,pessoa});
+    addSec.querySelector('#fevTitulo').value='';
+    renderCalFull();
+  });
+
+  nav.querySelector('#fullHoje').addEventListener('click',()=>{calAtual=new Date();diaSelecionado=fmtDate(new Date());renderCalFull();});
+  nav.querySelector('#fullPrev').addEventListener('click',()=>{calAtual.setMonth(calAtual.getMonth()-1);renderCalFull();});
+  nav.querySelector('#fullNext').addEventListener('click',()=>{calAtual.setMonth(calAtual.getMonth()+1);renderCalFull();});
+
+  renderCalFull();
+}
+
+function renderCalFull(){
+  const mes=calAtual.getMonth(),ano=calAtual.getFullYear();
+  const mAno=document.getElementById('fullMesAno');if(mAno)mAno.textContent=MESES[mes]+' '+ano;
+  const grid=document.getElementById('calGridFull');if(!grid)return;grid.innerHTML='';
+  const primeiro=new Date(ano,mes,1).getDay();
+  const diasMes=new Date(ano,mes+1,0).getDate();
+  const diasAntes=new Date(ano,mes,0).getDate();
+  const todayStr=fmtDate(new Date());
+  const todasDatas={};
+  Object.entries(agendaAtual).forEach(([d,evs])=>{Object.values(evs).forEach(ev=>{if(!todasDatas[d])todasDatas[d]=[];todasDatas[d].push({...ev,cor:CORES.tarefa});});});
+  Object.entries(compromissosAtual).forEach(([d,evs])=>{Object.values(evs).forEach(ev=>{if(!todasDatas[d])todasDatas[d]=[];todasDatas[d].push({...ev,cor:CORES[ev.pessoa]||CORES.casamento});});});
+  if(!todasDatas[CASAMENTO_DATE])todasDatas[CASAMENTO_DATE]=[];
+  todasDatas[CASAMENTO_DATE].unshift({label:'💒 Casamento!',cor:CORES.casamento});
+
+  for(let i=0;i<primeiro;i++)grid.appendChild(makeCellFull(diasAntes-primeiro+1+i,null,true,todayStr,[]));
+  for(let d=1;d<=diasMes;d++){
+    const ds=ano+'-'+p2(mes+1)+'-'+p2(d);
+    grid.appendChild(makeCellFull(d,ds,false,todayStr,todasDatas[ds]||[]));
+  }
+  const total=primeiro+diasMes;const resto=total%7===0?0:7-(total%7);
+  for(let d=1;d<=resto;d++)grid.appendChild(makeCellFull(d,null,true,todayStr,[]));
+}
+
+function makeCellFull(dayNum,dateStr,outro,todayStr,evs){
+  const cell=document.createElement('div');
+  cell.style.cssText='min-height:80px;padding:4px;border:1px solid #f0f0f0;border-radius:6px;cursor:pointer;transition:background .1s;vertical-align:top;';
+  if(outro)cell.style.opacity='.4';
+  if(dateStr===todayStr)cell.style.background='#e8f0fe';
+  if(dateStr===diaSelecionado&&dateStr!==todayStr)cell.style.background='#f5f5ff';
+  if(dateStr===CASAMENTO_DATE)cell.style.background='#fff0f5';
+  cell.onmouseenter=()=>{if(dateStr!==todayStr&&dateStr!==diaSelecionado&&dateStr!==CASAMENTO_DATE)cell.style.background='#fafafa';};
+  cell.onmouseleave=()=>{if(dateStr!==todayStr&&dateStr!==diaSelecionado&&dateStr!==CASAMENTO_DATE)cell.style.background='';};
+  const num=document.createElement('div');
+  num.style.cssText=`font-size:12px;font-weight:${dateStr===todayStr?700:400};color:${dateStr===todayStr?'#1a73e8':outro?'#ccc':'#1a1a1a'};margin-bottom:3px;`;
+  num.textContent=dayNum;cell.appendChild(num);
+  const sorted=evs.sort((a,b)=>(a.hora||'').localeCompare(b.hora||''));
+  sorted.slice(0,3).forEach(ev=>{
+    const p=document.createElement('div');
+    p.style.cssText=`font-size:9px;padding:1px 4px;border-radius:3px;color:#fff;background:${ev.cor||'#888'};margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;`;
+    p.textContent=(ev.hora?ev.hora.slice(0,5)+' ':'')+ev.label;p.title=ev.label;
+    cell.appendChild(p);
+  });
+  if(evs.length>3){const m=document.createElement('div');m.style.cssText='font-size:9px;color:#888;padding:0 2px;';m.textContent='+'+(evs.length-3)+' mais';cell.appendChild(m);}
+  if(dateStr&&!outro)cell.addEventListener('click',()=>{
+    diaSelecionado=dateStr;
+    mudarTab('projetos',document.querySelector('.tab'));
+    renderCal();renderDiaView();switchAgendaTab(0);
+  });
+  return cell;
+}
+
+// ===== MODAL TAREFA =====
+window.abrirModal=function(pid,sid,tid,label){
+  modalCtx={pid,sid,tid,label};
   document.getElementById('modalTaskLabel').textContent=label;
   const task=dadosAtuais[pid]?.secoes?.[sid]?.tasks?.[tid];
   if(task&&task.agendaData){
     document.getElementById('modalData').value=task.agendaData;
     document.getElementById('modalHora').value=task.agendaHora||'09:00';
+    document.getElementById('modalHoraFim').value=task.agendaHoraFim||'10:00';
     document.getElementById('btnRemoverAgenda').classList.remove('hidden');
   } else {
     document.getElementById('modalData').value=diaSelecionado||fmtDate(new Date());
     document.getElementById('modalHora').value='09:00';
+    document.getElementById('modalHoraFim').value='10:00';
     document.getElementById('btnRemoverAgenda').classList.add('hidden');
   }
   document.getElementById('modalOverlay').classList.remove('hidden');
@@ -372,38 +655,36 @@ window.fecharModal=function(){document.getElementById('modalOverlay').classList.
 window.salvarAgenda=function(){
   const data=document.getElementById('modalData').value;
   const hora=document.getElementById('modalHora').value;
+  const horaFim=document.getElementById('modalHoraFim').value;
   if(!data)return;
   const {pid,sid,tid,label}=modalCtx;
   const projetoNome=dadosAtuais[pid]?.titulo||'';
   const eid=uid();
-  set(ref(db,`agenda/${data}/${eid}`),{label,hora,pid,sid,tid,projetoNome});
-  update(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`),{agendaId:eid,agendaData:data,agendaHora:hora});
+  set(ref(db,`agenda/${data}/${eid}`),{label,hora,horaFim,pid,sid,tid,projetoNome});
+  update(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`),{agendaId:eid,agendaData:data,agendaHora:hora,agendaHoraFim:horaFim});
   fecharModal();diaSelecionado=data;
   const d=new Date(data+'T12:00:00');calAtual=new Date(d.getFullYear(),d.getMonth(),1);
-  renderCal();
+  renderCal();renderDiaView();
 };
 window.removerAgenda=function(){
   const {pid,sid,tid}=modalCtx;
   const task=dadosAtuais[pid]?.secoes?.[sid]?.tasks?.[tid];
-  if(task&&task.agendaData&&task.agendaId){
+  if(task?.agendaData&&task?.agendaId){
     remove(ref(db,`agenda/${task.agendaData}/${task.agendaId}`));
-    update(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`),{agendaId:null,agendaData:null,agendaHora:null});
+    update(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`),{agendaId:null,agendaData:null,agendaHora:null,agendaHoraFim:null});
   }
   fecharModal();
 };
 document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)fecharModal();});
-document.getElementById('calPrev').addEventListener('click',()=>{calAtual.setMonth(calAtual.getMonth()-1);renderCal();});
-document.getElementById('calNext').addEventListener('click',()=>{calAtual.setMonth(calAtual.getMonth()+1);renderCal();});
-document.getElementById('btnHoje').addEventListener('click',()=>{calAtual=new Date();diaSelecionado=fmtDate(new Date());renderCal();renderEventosDia();});
 
-// ---- PAINEL ----
+// ===== PAINEL TAREFAS =====
 function renderPainel(dados){
   dadosAtuais=dados;
   const painel=document.getElementById('painel');painel.innerHTML='';
   Object.entries(dados).forEach(([pid,proj])=>{
     const pct=calcProgress(proj.secoes);
     const wrap=document.createElement('div');wrap.className='projeto';wrap.id='proj-'+pid;
-    wrap.innerHTML=`<div class="projeto-header" id="hdr-${pid}"><div class="projeto-header-left"><div class="projeto-icon" style="background:${proj.iconBg}">${proj.icon}</div><div><div class="projeto-titulo">${proj.titulo}</div><div class="projeto-sub">${proj.sub||''}</div></div></div><div class="projeto-right"><div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" id="fill-${pid}" style="width:${pct}%;background:${proj.barColor}"></div></div><span class="progress-pct">${pct}%</span></div><span class="chevron ${proj.aberto?'open':''}">▼</span></div></div><div class="projeto-body ${proj.aberto?'open':''}" id="body-${pid}"></div>`;
+    wrap.innerHTML=`<div class="projeto-header" id="hdr-${pid}"><div class="projeto-header-left"><div class="projeto-icon" style="background:${proj.iconBg}">${proj.icon}</div><div><div class="projeto-titulo">${proj.titulo}</div><div class="projeto-sub">${proj.sub||''}</div></div></div><div class="projeto-right"><div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${proj.barColor}"></div></div><span class="progress-pct">${pct}%</span></div><span class="chevron ${proj.aberto?'open':''}">▼</span></div></div><div class="projeto-body ${proj.aberto?'open':''}" id="body-${pid}"></div>`;
     wrap.querySelector(`#hdr-${pid}`).addEventListener('click',()=>update(ref(db,`projetos/${pid}`),{aberto:!(dadosAtuais[pid].aberto||false)}));
     const body=wrap.querySelector(`#body-${pid}`);
     if(proj.custos&&proj.custos.length){
@@ -421,8 +702,8 @@ function renderPainel(dados){
         const tl=document.createElement('div');tl.className='tasks';tl.id=`tl-${pid}-${sid}`;
         if(sec.tasks){Object.entries(sec.tasks).sort((a,b)=>(a[1].ordem||0)-(b[1].ordem||0)).forEach(([tid,task])=>tl.appendChild(makeTaskEl(pid,sid,tid,task,proj)));}
         secDiv.appendChild(tl);
-        const ar=document.createElement('div');ar.className='add-row';ar.innerHTML=`<input class="add-input" placeholder="Nova tarefa..." id="inp-${pid}-${sid}"><button class="add-btn">+ Adicionar</button>`;
-        ar.querySelector('.add-btn').addEventListener('click',()=>addTask(pid,sid,`inp-${pid}-${sid}`));
+        const ar=document.createElement('div');ar.className='add-row';ar.innerHTML=`<input class="add-input" placeholder="Nova tarefa..." id="inp-${pid}-${sid}"><button class="add-btn-sm">+ Adicionar</button>`;
+        ar.querySelector('.add-btn-sm').addEventListener('click',()=>addTask(pid,sid,`inp-${pid}-${sid}`));
         ar.querySelector('.add-input').addEventListener('keydown',e=>{if(e.key==='Enter')addTask(pid,sid,`inp-${pid}-${sid}`);});
         secDiv.appendChild(ar);body.appendChild(secDiv);
       });
@@ -434,24 +715,21 @@ function renderPainel(dados){
 function makeTaskEl(pid,sid,tid,task,proj){
   const el=document.createElement('div');
   el.className='task'+(task.done?' done':'');
-  el.setAttribute('draggable','true');
-  el.dataset.pid=pid;el.dataset.sid=sid;el.dataset.tid=tid;
+  el.setAttribute('draggable','true');el.dataset.pid=pid;el.dataset.sid=sid;el.dataset.tid=tid;
   const noteOpen=task.nota&&task.nota.length>0;
   const temAgenda=task.agendaData&&task.agendaHora;
-  const badge=temAgenda?`<span class="task-date-badge">${task.agendaData.split('-').reverse().join('/')} ${task.agendaHora}</span>`:'';
+  const badge=temAgenda?`<span class="task-date-badge">${task.agendaData.split('-').reverse().join('/')} ${task.agendaHora}${task.agendaHoraFim?' – '+task.agendaHoraFim:''}</span>`:'';
   el.innerHTML=`<div class="task-main"><span class="drag-handle">⠿</span><div class="task-check"></div><div style="flex:1;min-width:0;"><span class="task-label">${task.label}</span>${badge?'<div>'+badge+'</div>':''}</div><div class="task-actions"><button class="task-cal-btn${temAgenda?' active':''}" title="Agendar">📅</button><button class="task-note-btn${noteOpen?' active':''}" title="Anotações">✏️</button><button class="task-del">×</button></div></div><div class="task-note-area${noteOpen?'':' hidden'}"><textarea class="task-note-input" placeholder="Anotações...">${task.nota||''}</textarea></div>`;
-
   el.querySelector('.task-check').addEventListener('click',()=>update(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`),{done:!task.done}));
   el.querySelector('.task-label').addEventListener('click',()=>update(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`),{done:!task.done}));
-  if(badge)el.querySelector('.task-date-badge').addEventListener('click',()=>abrirModal(pid,sid,tid,task.label,proj.barColor));
-  el.querySelector('.task-del').addEventListener('click',e=>{e.stopPropagation();if(confirm('Remover essa tarefa?'))remove(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`));});
-  el.querySelector('.task-cal-btn').addEventListener('click',e=>{e.stopPropagation();abrirModal(pid,sid,tid,task.label,proj.barColor);});
+  if(badge)el.querySelector('.task-date-badge').addEventListener('click',()=>abrirModal(pid,sid,tid,task.label));
+  el.querySelector('.task-del').addEventListener('click',e=>{e.stopPropagation();if(confirm('Remover?'))remove(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`));});
+  el.querySelector('.task-cal-btn').addEventListener('click',e=>{e.stopPropagation();abrirModal(pid,sid,tid,task.label);});
   const nb=el.querySelector('.task-note-btn'),na=el.querySelector('.task-note-area');
   nb.addEventListener('click',e=>{e.stopPropagation();na.classList.toggle('hidden');nb.classList.toggle('active');if(!na.classList.contains('hidden'))na.querySelector('textarea').focus();});
   const ta=el.querySelector('.task-note-input');let nt;
   ta.addEventListener('input',()=>{clearTimeout(nt);nt=setTimeout(()=>update(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`),{nota:ta.value}),800);});
   ta.addEventListener('blur',()=>update(ref(db,`projetos/${pid}/secoes/${sid}/tasks/${tid}`),{nota:ta.value}));
-
   el.addEventListener('dragstart',e=>{dragSrc=el;el.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
   el.addEventListener('dragend',()=>{el.classList.remove('dragging');document.querySelectorAll('.task').forEach(t=>t.classList.remove('drag-over'));});
   el.addEventListener('dragover',e=>{e.preventDefault();if(el!==dragSrc)el.classList.add('drag-over');});
@@ -461,10 +739,8 @@ function makeTaskEl(pid,sid,tid,task,proj){
     if(!dragSrc||dragSrc===el)return;
     const list=el.parentNode;const fi=[...list.children].indexOf(dragSrc),ti=[...list.children].indexOf(el);
     if(fi<ti)list.insertBefore(dragSrc,el.nextSibling);else list.insertBefore(dragSrc,el);
-    const upd={};[...list.children].forEach((c,i)=>upd[`projetos/${c.dataset.pid}/secoes/${c.dataset.sid}/tasks/${c.dataset.tid}/ordem`]=i);
-    update(ref(db),upd);
+    const upd={};[...list.children].forEach((c,i)=>upd[`projetos/${c.dataset.pid}/secoes/${c.dataset.sid}/tasks/${c.dataset.tid}/ordem`]=i);update(ref(db),upd);
   });
-
   let tEl=null,tCl=null,tOX=0,tOY=0;
   const handle=el.querySelector('.drag-handle');
   handle.addEventListener('touchstart',e=>{e.preventDefault();tEl=el;const t=e.touches[0],r=el.getBoundingClientRect();tOX=t.clientX-r.left;tOY=t.clientY-r.top;tCl=el.cloneNode(true);tCl.style.cssText=`position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;opacity:.85;z-index:999;pointer-events:none;border-radius:8px;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.12);`;document.body.appendChild(tCl);el.style.opacity='.3';},{passive:false});
@@ -481,14 +757,23 @@ function addTask(pid,sid,inputId){
   inp.value='';
 }
 
+// ===== FIREBASE =====
 onValue(ref(db,'projetos'),snap=>{
   document.getElementById('syncDot').classList.remove('offline');document.getElementById('syncLabel').textContent='Sincronizado';
   if(!snap.exists())set(ref(db,'projetos'),DADOS_INICIAIS);else renderPainel(snap.val());
 },()=>{document.getElementById('syncDot').classList.add('offline');document.getElementById('syncLabel').textContent='Sem conexão';});
 
-onValue(ref(db,'agenda'),snap=>{agendaAtual=snap.exists()?snap.val():{};renderCal();renderEventosDia();});
+onValue(ref(db,'agenda'),snap=>{
+  agendaAtual=snap.exists()?snap.val():{};
+  renderCal();renderDiaView();
+});
 
-renderCal();renderEventosDia();
+onValue(ref(db,'compromissos'),snap=>{
+  compromissosAtual=snap.exists()?snap.val():{};
+  renderCal();renderDiaView();
+});
+
+renderAgendaCard();
 </script>
 </body>
 </html>
