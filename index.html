@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Maykon & Tuany</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; color: #1a1a1a; min-height: 100vh; }
+  header { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+  .logo { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+  .logo span { color: #d4537e; }
+  .sync-status { font-size: 12px; color: #888; display: flex; align-items: center; gap: 6px; }
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; }
+  .sync-dot.offline { background: #f59e0b; }
+  .painel { max-width: 760px; margin: 0 auto; padding: 24px 16px; display: flex; flex-direction: column; gap: 20px; }
+  .projeto { background: #fff; border-radius: 14px; border: 1px solid #e8e8e8; overflow: hidden; }
+  .projeto-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f0f0f0; cursor: pointer; user-select: none; }
+  .projeto-header-left { display: flex; align-items: center; gap: 12px; }
+  .projeto-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .projeto-titulo { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+  .projeto-sub { font-size: 12px; color: #888; margin-top: 2px; }
+  .projeto-right { display: flex; align-items: center; gap: 10px; }
+  .progress-wrap { display: flex; align-items: center; gap: 8px; }
+  .progress-bar { width: 72px; height: 5px; background: #f0f0f0; border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 99px; transition: width 0.4s; }
+  .progress-pct { font-size: 11px; color: #888; min-width: 26px; text-align: right; }
+  .chevron { font-size: 12px; color: #bbb; transition: transform 0.2s; }
+  .chevron.open { transform: rotate(180deg); }
+  .projeto-body { padding: 0 20px 16px; display: none; }
+  .projeto-body.open { display: block; }
+  .secao { margin-top: 16px; }
+  .secao-titulo { font-size: 10px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .tasks { display: flex; flex-direction: column; gap: 2px; }
+  .task { display: flex; align-items: flex-start; gap: 10px; padding: 8px 8px; border-radius: 8px; cursor: pointer; transition: background 0.12s; }
+  .task:hover { background: #fafafa; }
+  .task.done { opacity: 0.45; }
+  .task-check { width: 17px; height: 17px; border: 1.5px solid #d0d0d0; border-radius: 5px; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .task.done .task-check { background: #22c55e; border-color: #22c55e; }
+  .task.done .task-check::after { content: ''; display: block; width: 8px; height: 5px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) translateY(-1px); }
+  .task-label { font-size: 13px; color: #1a1a1a; line-height: 1.45; flex: 1; }
+  .task.done .task-label { text-decoration: line-through; color: #aaa; }
+  .task-del { font-size: 16px; color: #ccc; padding: 0 4px; opacity: 0; transition: opacity 0.15s; flex-shrink: 0; line-height: 1; }
+  .task:hover .task-del { opacity: 1; }
+  .task-del:hover { color: #e24b4a; }
+  .add-row { display: flex; gap: 8px; margin-top: 8px; padding: 0 8px; }
+  .add-input { flex: 1; font-size: 13px; padding: 7px 10px; border-radius: 8px; border: 1px solid #e0e0e0; outline: none; background: #fafafa; color: #1a1a1a; }
+  .add-input:focus { border-color: #ccc; background: #fff; }
+  .add-btn { font-size: 13px; padding: 7px 14px; border-radius: 8px; border: 1px solid #e0e0e0; background: #fff; color: #555; cursor: pointer; transition: background 0.12s; white-space: nowrap; }
+  .add-btn:hover { background: #f5f5f5; }
+  .divider { height: 1px; background: #f0f0f0; margin: 16px 0 0; }
+  .custos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-bottom: 10px; }
+  .custo-card { background: #fafafa; border-radius: 8px; padding: 10px 12px; }
+  .custo-nome { font-size: 11px; color: #888; margin-bottom: 3px; }
+  .custo-val { font-size: 15px; font-weight: 600; color: #1a1a1a; }
+  .total-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #f5f5f0; border-radius: 8px; }
+  .total-label { font-size: 12px; color: #666; }
+  .total-val { font-size: 17px; font-weight: 700; color: #1a1a1a; }
+  .loading { text-align: center; padding: 60px 20px; color: #aaa; font-size: 14px; }
+  @media (max-width: 480px) {
+    .painel { padding: 16px 10px; }
+    .projeto-titulo { font-size: 13px; }
+    .progress-bar { width: 50px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Maykon <span>&</span> Tuany</div>
+  <div class="sync-status">
+    <div class="sync-dot" id="syncDot"></div>
+    <span id="syncLabel">Conectando...</span>
+  </div>
+</header>
+
+<div class="painel" id="painel">
+  <div class="loading">Carregando...</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB_UTg8NWYSS3SlzSsJdgvrdkhuRZLFjB0",
+  authDomain: "painel-maykonetuany.firebaseapp.com",
+  databaseURL: "https://painel-maykonetuany-default-rtdb.firebaseio.com",
+  projectId: "painel-maykonetuany",
+  storageBucket: "painel-maykonetuany.firebasestorage.app",
+  messagingSenderId: "1007144969805",
+  appId: "1:1007144969805:web:bd5218f66ada235b491e04"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const DADOS_INICIAIS = {
+  casamento: {
+    titulo: "Casamento Maykon & Tuany",
+    sub: "Novembro 2025",
+    icon: "💍",
+    iconBg: "#fbeaf0",
+    barColor: "#d4537e",
+    aberto: true,
+    custos: [
+      { nome: "Espaço", val: 4500 },
+      { nome: "Doces", val: 2880 },
+      { nome: "Vestido", val: 1500 },
+      { nome: "Terno", val: 1000 },
+      { nome: "Foto & Vídeo", val: 3600 },
+      { nome: "Bebida", val: 1500 }
+    ],
+    secoes: {
+      tarefas: {
+        titulo: "Tarefas pendentes",
+        tasks: {
+          t1: { label: "Desenhar detalhado todos os valores do casamento", done: false },
+          t2: { label: "Conversar com a Antonia (mãe)", done: false },
+          t3: { label: "Ir no cartório", done: false },
+          t4: { label: "Arranjar DJ e orçar valor", done: false },
+          t5: { label: "Arranjar gaiteiro e orçar valor", done: false },
+          t6: { label: "Ver e comparar valores das alianças", done: false },
+          t7: { label: "Ver lugar do terno", done: false },
+          t8: { label: "Criar site com nossas coisas", done: false },
+          t9: { label: "Levar caixas dos padrinhos no correio", done: false },
+          t10: { label: "Fazer demais caixas dos padrinhos", done: false }
+        }
+      }
+    }
+  },
+  maykon: {
+    titulo: "Projeto Maykon — Instagram",
+    sub: "As 3 Inteligências do Século",
+    icon: "🎥",
+    iconBg: "#e6f1fb",
+    barColor: "#378add",
+    aberto: false,
+    secoes: {
+      estrategia: {
+        titulo: "Definições estratégicas",
+        tasks: {
+          t1: { label: "Definir dias de gravação", done: false },
+          t2: { label: "Definir conteúdos por pilar (Pessoal, Interpessoal, Computacional)", done: false },
+          t3: { label: "Definir livros e datas para ler/concluir", done: false },
+          t4: { label: "Definir público-alvo", done: false },
+          t5: { label: "Definir data de início das postagens", done: false }
+        }
+      },
+      producao: {
+        titulo: "Produção",
+        tasks: {
+          t1: { label: "Fechar orçamento de produção", done: true },
+          t2: { label: "Criar roteiros para Inteligência Pessoal", done: false },
+          t3: { label: "Criar roteiros para Inteligência Interpessoal", done: false },
+          t4: { label: "Criar roteiros para Inteligência Computacional", done: false },
+          t5: { label: "Gravar primeiros vídeos", done: false },
+          t6: { label: "Editar e publicar", done: false }
+        }
+      }
+    }
+  },
+  tuany: {
+    titulo: "Projeto Tuany — Sobrancelha",
+    sub: "Reconstrução & Marca",
+    icon: "✨",
+    iconBg: "#eeedfe",
+    barColor: "#7f77dd",
+    aberto: false,
+    secoes: {
+      marca: {
+        titulo: "Posicionamento & marca",
+        tasks: {
+          t1: { label: "Usar espaço do Instituto para fortalecer marca", done: false },
+          t2: { label: "Definir posicionamento como especialista em reconstrução", done: false },
+          t3: { label: "Definir público-alvo", done: false },
+          t4: { label: "Definir constância de postagens", done: false }
+        }
+      },
+      conteudo: {
+        titulo: "Conteúdo & TikTok",
+        tasks: {
+          t1: { label: "Criar vídeos e fazer postagens no Instagram", done: false },
+          t2: { label: "Começar no TikTok", done: false },
+          t3: { label: "Estudar estratégia para TikTok Shop", done: false }
+        }
+      },
+      clientes: {
+        titulo: "Estratégia de cliente",
+        tasks: {
+          t1: { label: "Estudar modelo de cliente recorrente", done: false },
+          t2: { label: "Criar estratégia de cliente que indica (referral)", done: false }
+        }
+      }
+    }
+  }
+};
+
+const rootRef = ref(db, 'projetos');
+let dadosAtuais = null;
+
+function uid() {
+  return 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+}
+
+function calcProgress(secoes) {
+  if (!secoes) return 0;
+  let total = 0, done = 0;
+  Object.values(secoes).forEach(s => {
+    if (s.tasks) Object.values(s.tasks).forEach(t => { total++; if (t.done) done++; });
+  });
+  return total === 0 ? 0 : Math.round((done / total) * 100);
+}
+
+function fmtBRL(v) {
+  return 'R$ ' + Number(v).toLocaleString('pt-BR');
+}
+
+function renderPainel(dados) {
+  dadosAtuais = dados;
+  const painel = document.getElementById('painel');
+  painel.innerHTML = '';
+
+  Object.entries(dados).forEach(([pid, proj]) => {
+    const pct = calcProgress(proj.secoes);
+    const div = document.createElement('div');
+    div.className = 'projeto';
+    div.id = 'proj-' + pid;
+
+    div.innerHTML = `
+      <div class="projeto-header" onclick="toggleProjeto('${pid}')">
+        <div class="projeto-header-left">
+          <div class="projeto-icon" style="background:${proj.iconBg}">${proj.icon}</div>
+          <div>
+            <div class="projeto-titulo">${proj.titulo}</div>
+            <div class="projeto-sub">${proj.sub || ''}</div>
+          </div>
+        </div>
+        <div class="projeto-right">
+          <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${proj.barColor}"></div></div>
+            <span class="progress-pct">${pct}%</span>
+          </div>
+          <span class="chevron ${proj.aberto ? 'open' : ''}">▼</span>
+        </div>
+      </div>
+      <div class="projeto-body ${proj.aberto ? 'open' : ''}" id="body-${pid}"></div>
+    `;
+
+    const body = div.querySelector(`#body-${pid}`);
+
+    if (proj.custos && proj.custos.length) {
+      const total = proj.custos.reduce((a, c) => a + Number(c.val), 0);
+      const custoDiv = document.createElement('div');
+      custoDiv.className = 'secao';
+      custoDiv.innerHTML = `<div class="secao-titulo">Custos já levantados</div>`;
+      const grid = document.createElement('div');
+      grid.className = 'custos-grid';
+      proj.custos.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'custo-card';
+        card.innerHTML = `<div class="custo-nome">${c.nome}</div><div class="custo-val">${fmtBRL(c.val)}</div>`;
+        grid.appendChild(card);
+      });
+      custoDiv.appendChild(grid);
+      custoDiv.innerHTML += `<div class="total-row"><span class="total-label">Total já mapeado</span><span class="total-val">${fmtBRL(total)}</span></div>`;
+      body.appendChild(custoDiv);
+    }
+
+    if (proj.secoes) {
+      Object.entries(proj.secoes).forEach(([sid, sec], idx) => {
+        if (idx > 0 || proj.custos) {
+          const div2 = document.createElement('div'); div2.className = 'divider'; body.appendChild(div2);
+        }
+        const secDiv = document.createElement('div');
+        secDiv.className = 'secao';
+        secDiv.innerHTML = `<div class="secao-titulo">${sec.titulo}</div>`;
+        const tasksList = document.createElement('div');
+        tasksList.className = 'tasks';
+
+        if (sec.tasks) {
+          Object.entries(sec.tasks).forEach(([tid, task]) => {
+            tasksList.appendChild(makeTaskEl(pid, sid, tid, task));
+          });
+        }
+
+        secDiv.appendChild(tasksList);
+
+        const addRow = document.createElement('div');
+        addRow.className = 'add-row';
+        addRow.innerHTML = `<input class="add-input" placeholder="Nova tarefa..." id="inp-${pid}-${sid}"><button class="add-btn" onclick="addTask('${pid}','${sid}','inp-${pid}-${sid}')">+ Adicionar</button>`;
+        secDiv.appendChild(addRow);
+
+        const inp = addRow.querySelector('.add-input');
+        inp.addEventListener('keydown', e => { if (e.key === 'Enter') addTask(pid, sid, `inp-${pid}-${sid}`); });
+
+        body.appendChild(secDiv);
+      });
+    }
+
+    painel.appendChild(div);
+  });
+}
+
+function makeTaskEl(pid, sid, tid, task) {
+  const el = document.createElement('div');
+  el.className = 'task' + (task.done ? ' done' : '');
+  el.id = `task-${pid}-${sid}-${tid}`;
+  el.innerHTML = `<div class="task-check"></div><span class="task-label">${task.label}</span><span class="task-del" onclick="deleteTask(event,'${pid}','${sid}','${tid}')">×</span>`;
+  el.querySelector('.task-check').addEventListener('click', () => toggleTask(pid, sid, tid));
+  el.querySelector('.task-label').addEventListener('click', () => toggleTask(pid, sid, tid));
+  return el;
+}
+
+window.toggleProjeto = function(pid) {
+  const current = dadosAtuais[pid].aberto || false;
+  update(ref(db, `projetos/${pid}`), { aberto: !current });
+};
+
+window.toggleTask = function(pid, sid, tid) {
+  const current = dadosAtuais[pid].secoes[sid].tasks[tid].done;
+  update(ref(db, `projetos/${pid}/secoes/${sid}/tasks/${tid}`), { done: !current });
+};
+
+window.addTask = function(pid, sid, inputId) {
+  const inp = document.getElementById(inputId);
+  const val = inp.value.trim();
+  if (!val) return;
+  const id = uid();
+  set(ref(db, `projetos/${pid}/secoes/${sid}/tasks/${id}`), { label: val, done: false });
+  inp.value = '';
+};
+
+window.deleteTask = function(e, pid, sid, tid) {
+  e.stopPropagation();
+  if (confirm('Remover essa tarefa?')) {
+    remove(ref(db, `projetos/${pid}/secoes/${sid}/tasks/${tid}`));
+  }
+};
+
+// Conectar e escutar
+onValue(rootRef, (snap) => {
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncLabel');
+  dot.classList.remove('offline');
+  lbl.textContent = 'Sincronizado';
+
+  if (!snap.exists()) {
+    set(rootRef, DADOS_INICIAIS);
+  } else {
+    renderPainel(snap.val());
+  }
+}, (err) => {
+  document.getElementById('syncDot').classList.add('offline');
+  document.getElementById('syncLabel').textContent = 'Sem conexão';
+});
+</script>
+</body>
+</html>
